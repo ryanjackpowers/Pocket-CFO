@@ -1,0 +1,1615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#032846">
+<title>Pocket CFO</title>
+<style>
+:root{
+  --navy:#032846;
+  --navy2:#074c7a;
+  --blue:#0b8ee8;
+  --blue2:#1aa6f7;
+  --cyan:#28d8ef;
+  --ice:#eef9ff;
+  --ice2:#f7fcff;
+  --ink:#0a2340;
+  --muted:#637d96;
+  --line:#cfe3ef;
+  --green:#0a7c64;
+  --shadow:0 16px 42px rgba(2,45,80,.11);
+  --shadow-lg:0 28px 70px rgba(0,42,78,.18);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 92% 3%,rgba(40,216,239,.10),transparent 28rem),
+    linear-gradient(180deg,#f5fbff 0%,#eef6fb 100%);
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:1180px;margin:auto;padding:18px}
+.header{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  background:linear-gradient(135deg,#042a49,#083f69 60%,#032846);
+  color:white;border-radius:26px;padding:18px 22px;box-shadow:var(--shadow-lg)
+}
+.brand{display:flex;align-items:center;gap:16px}
+.appIcon{width:86px;height:86px;border-radius:24px;object-fit:cover;box-shadow:0 12px 28px rgba(0,0,0,.23)}
+.brand h1{margin:0;font-size:38px;line-height:.95;letter-spacing:-.04em}
+.brand h1 span{color:var(--cyan)}
+.brandSub{font-size:14px;color:#d4edf8;margin-top:8px;font-weight:700}
+.brandLine{font-size:10px;color:#b7d7e6;margin-top:4px;letter-spacing:.08em}
+.creator{text-align:right;font-size:10px;color:#cfe7f2;line-height:1.5}
+.creator strong{display:block;color:#fff;font-size:14px}
+.creator .miniRule{width:54px;height:2px;background:var(--cyan);margin:8px 0 8px auto;border-radius:2px}
+
+.nav{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:16px 0
+}
+.navBtn{
+  border:1px solid #d7e8f2;background:white;border-radius:19px;padding:15px 10px;
+  color:#174364;box-shadow:0 8px 24px rgba(0,73,120,.06);font-weight:850;
+  transition:.18s ease
+}
+.navBtn small{display:block;font-size:9px;color:var(--muted);font-weight:650;margin-top:4px}
+.navBtn .ico{display:block;font-size:22px;margin-bottom:5px}
+.navBtn.active{
+  color:white;border:none;background:linear-gradient(145deg,#17a3ef,#0873c7);
+  box-shadow:0 14px 30px rgba(0,117,195,.22)
+}
+.navBtn.active small{color:#e7f7ff}
+
+.section{display:none}
+.section.active{display:block}
+
+.hero{
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 88% 35%,rgba(17,168,247,.24),transparent 22rem),
+    linear-gradient(135deg,#032846,#06406c 55%,#06345a);
+  color:white;border-radius:26px;padding:34px 36px;box-shadow:var(--shadow-lg)
+}
+.heroGrid{display:grid;grid-template-columns:1.45fr .55fr;gap:24px;align-items:center}
+.heroEyebrow{font-size:10px;letter-spacing:.24em;color:#b9f4ff;font-weight:900;text-transform:uppercase}
+.hero h2{font-size:46px;line-height:1.02;margin:12px 0 12px;letter-spacing:-.04em}
+.hero h2 span{color:#30d4f3}
+.hero p{font-size:16px;line-height:1.55;color:#dbedf6;margin:0;max-width:700px}
+.heroIcon{width:235px;max-width:100%;border-radius:30px;justify-self:end;box-shadow:0 18px 45px rgba(0,0,0,.22)}
+.heroChips{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.heroChip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(162,233,248,.16);border-radius:12px;padding:9px 11px;font-size:10px;color:#eaf9ff}
+
+.valueGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.valueCard{
+  background:linear-gradient(180deg,#fff,#f5fbff);border:1px solid #d7e7f0;border-radius:19px;
+  padding:17px;box-shadow:0 8px 24px rgba(0,71,117,.05);display:flex;gap:12px;align-items:flex-start
+}
+.valueIcon{font-size:22px}
+.valueCard strong{display:block;color:#073d67;font-size:11px}
+.valueCard span{display:block;color:var(--muted);font-size:10px;line-height:1.45;margin-top:4px}
+
+.card{
+  background:white;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);
+  margin-top:16px;overflow:hidden
+}
+.cardHead{padding:21px 24px 15px;border-bottom:1px solid #e2eef4;background:linear-gradient(180deg,#fff,#f8fcff)}
+.cardHead h3{font-size:25px;margin:0;color:#082a48;letter-spacing:-.025em}
+.cardHead p{margin:6px 0 0;color:var(--muted);font-size:11px;line-height:1.55}
+.cardBody{padding:22px 24px}
+
+.askCard{
+  background:linear-gradient(180deg,#f7fdff,#edf9fe);border:1px solid #c8e7f3;border-radius:24px;
+  padding:24px;margin-top:16px
+}
+.askTitle{font-size:29px;font-weight:900;color:#0b2946;letter-spacing:-.03em}
+.askSub{font-size:12px;color:#5f7890;margin-top:4px}
+.askRow{display:grid;grid-template-columns:1fr 58px;gap:12px;margin-top:15px;align-items:start}
+.askRow textarea{min-height:150px}
+textarea,input,select{
+  width:100%;border:1px solid #bcd7e5;border-radius:18px;background:white;color:var(--ink);
+  padding:14px 15px;outline:none;transition:.18s ease
+}
+textarea{resize:vertical}
+textarea:focus,input:focus,select:focus{border-color:#20b8e3;box-shadow:0 0 0 4px rgba(32,184,227,.11)}
+.micBtn{
+  width:58px;height:58px;border-radius:50%;border:1px solid #a8d6e7;background:white;
+  display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 8px 22px rgba(0,104,159,.10)
+}
+.micBtn.listening{background:linear-gradient(135deg,#0b7bc6,#22d7ed);color:white;border-color:transparent;box-shadow:0 0 0 6px rgba(34,215,237,.12)}
+.exampleLabel{font-size:10px;color:#668098;margin-top:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{border:1px solid #cee5f0;background:#eff8fd;color:#0f4b73;border-radius:999px;padding:8px 11px;font-size:9px;font-weight:750}
+.primaryBtn{
+  width:100%;border:none;border-radius:16px;background:linear-gradient(135deg,#159ceb,#0872c6);color:white;
+  padding:15px 18px;font-weight:900;font-size:14px;margin-top:16px;box-shadow:0 10px 24px rgba(0,112,190,.20)
+}
+.secondaryGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.secondaryBtn{border:1px solid #d1e3ed;background:white;border-radius:16px;padding:14px;font-weight:850;color:#0b3c62}
+.status{font-size:10px;color:var(--green);font-weight:800;min-height:14px;margin-top:8px}
+
+.topicGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.topic{
+  border:1px solid #d5e7ef;background:linear-gradient(180deg,#fff,#f6fbfe);border-radius:17px;padding:15px;text-align:left;
+  color:#0b3c62;font-weight:850;transition:.18s ease
+}
+.topic small{display:block;color:var(--muted);font-size:9px;line-height:1.4;margin-top:5px;font-weight:600}
+.topic:hover{transform:translateY(-2px);border-color:#7dcce7;box-shadow:0 10px 24px rgba(0,95,155,.08)}
+
+.formGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.field label{display:block;font-size:9px;font-weight:850;color:#5f7890;margin-bottom:6px}
+.field textarea{min-height:92px}
+.groupTitle{font-size:12px;font-weight:900;color:#0a3d64;margin:18px 0 10px;padding-top:16px;border-top:1px solid #e3edf3}
+.previewGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.preview{background:#f4fbff;border:1px solid #d5e7ef;border-radius:15px;padding:13px}
+.preview span{display:block;font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:900}
+.preview strong{display:block;font-size:15px;color:#0863a0;margin-top:5px}
+.actionRow{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+.btn{border:1px solid #cfe3ed;background:white;color:#0a3b61;border-radius:14px;padding:11px 14px;font-size:10px;font-weight:850}
+.btn.primary{background:linear-gradient(135deg,#075488,#0b8ee8);color:white;border:none}
+
+.savedItem{border:1px solid #d8e8f1;background:#fbfeff;border-radius:16px;padding:14px;margin-bottom:10px}
+.savedItem strong{display:block;color:#0a3d64}
+.savedItem small{display:block;color:var(--muted);margin-top:4px}
+.footer{
+  display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:18px 0 5px;padding:14px;
+  border-radius:15px;background:#eaf5fb;color:#426784;font-size:9px
+}
+
+@media(max-width:900px){
+  .nav{grid-template-columns:repeat(5,1fr)}
+  .navBtn{padding:12px 6px;font-size:10px}
+  .heroGrid{grid-template-columns:1fr}
+  .heroIcon{justify-self:start;width:180px}
+  .valueGrid{grid-template-columns:repeat(2,1fr)}
+  .topicGrid{grid-template-columns:repeat(2,1fr)}
+  .formGrid{grid-template-columns:repeat(2,1fr)}
+  .previewGrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:650px){
+  .app{padding:10px}
+  .header{padding:14px}
+  .appIcon{width:66px;height:66px;border-radius:19px}
+  .brand h1{font-size:29px}
+  .brandSub{font-size:11px}
+  .creator{display:none}
+  .nav{gap:6px}
+  .navBtn{border-radius:14px;padding:10px 3px;font-size:8px}
+  .navBtn small{display:none}
+  .navBtn .ico{font-size:19px}
+  .hero{padding:26px 22px}
+  .hero h2{font-size:34px}
+  .hero p{font-size:13px}
+  .heroIcon{width:140px}
+  .valueGrid,.topicGrid,.formGrid,.previewGrid,.secondaryGrid{grid-template-columns:1fr}
+  .cardHead,.cardBody{padding-left:17px;padding-right:17px}
+  .askCard{padding:18px}
+  .askTitle{font-size:25px}
+}
+
+/* Geographic focus and CMS hospital selectors */
+.geoField{position:relative}.geoPicker{width:100%}.geoPicker summary{list-style:none;cursor:pointer;min-height:46px;padding:12px 44px 12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);font:inherit;color:var(--text);position:relative}.geoPicker summary::-webkit-details-marker{display:none}.geoPicker summary:after{content:"⌄";position:absolute;right:15px;top:10px;font-size:22px;color:var(--muted)}.geoPicker[open] summary:after{content:"⌃"}.geoMenu{margin-top:8px;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:10px;max-height:360px;overflow:auto;position:static;width:100%;box-sizing:border-box}.geoOption{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;cursor:pointer;font-size:14px}.geoOption:hover{background:rgba(127,127,127,.08)}.geoOption input{width:17px;height:17px;accent-color:var(--accent)}.geoNational{font-weight:700}.geoDivider{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 10px 6px;border-top:1px solid var(--line);margin-top:4px}.stateCheckboxes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px}.hospitalFocusField{grid-column:1/-1}.hospitalFocusField[hidden]{display:none}.hospitalSelectors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:0}.hospitalPicker{padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(127,127,127,.04)}.hospitalPicker label{display:block;font-size:12px;font-weight:800;margin-bottom:7px}.hospitalPicker select{width:100%;min-height:46px}.hospitalMulti{border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden}.hospitalMulti summary{padding:13px 15px;min-height:46px;display:flex;align-items:center;cursor:pointer;font-size:16px}.hospitalChoices{max-height:330px;overflow:auto;border-top:1px solid var(--line);padding:6px}.hospitalChoice{display:flex!important;align-items:flex-start;gap:10px;padding:10px 8px;margin:0!important;font-size:14px!important;font-weight:600!important;border-radius:8px}.hospitalChoice input{width:20px;height:20px;flex:0 0 auto;margin-top:1px}.hospitalMeta{font-size:11px;color:var(--muted);margin-top:6px}.hospitalError{color:#a33}@media(max-width:700px){.stateCheckboxes{grid-template-columns:1fr}.geoMenu{max-height:340px}.hospitalSelectors{grid-template-columns:1fr}}
+
+/* Form 990 source navigator and research selector */
+.form990SelectorBox{margin:0 0 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:14px}.form990SelectorHead{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:11px}.form990SelectorHead strong{font-size:14px}.form990SelectorHead span{font-size:12px;color:var(--muted)}.form990SelectorGrid{display:grid;grid-template-columns:1fr 2fr;gap:10px}.form990SelectorGrid .field{margin:0}.form990SelectorGrid select{width:100%;min-height:46px}@media(max-width:700px){.form990SelectorHead{display:block}.form990SelectorHead span{display:block;margin-top:4px}.form990SelectorGrid{grid-template-columns:1fr}}
+.form990Panel{margin-top:18px;border:1px solid var(--line);border-radius:16px;background:rgba(127,127,127,.035);padding:16px}.form990Panel[hidden]{display:none}.form990Head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}.form990Head h4{margin:0;font-size:18px;color:var(--text)}.form990Head p{margin:5px 0 0;color:var(--muted);font-size:13px;line-height:1.45}.form990Tabs{display:flex;gap:8px;margin:12px 0 14px;flex-wrap:wrap}.form990Tab{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:999px;padding:9px 14px;font:inherit;font-size:13px;font-weight:800;cursor:pointer}.form990Tab.active{background:var(--accent);color:white;border-color:var(--accent)}.form990Pane[hidden]{display:none}.sourceLookup{display:grid;grid-template-columns:1.5fr 1fr auto;gap:10px;align-items:end}.sourceLookup .field{margin:0}.sourceLookup input{width:100%}.sourceResult{margin-top:14px;border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden}.sourceIdentity{padding:14px 15px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.sourceIdentity strong{display:block;font-size:16px}.sourceMeta{color:var(--muted);font-size:12px;line-height:1.5;margin-top:4px}.sourceStatus{font-size:12px;font-weight:750;color:var(--muted)}.sourceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:14px}.sourceLink{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(127,127,127,.025);color:var(--text);text-decoration:none;font-size:13px;font-weight:800}.sourceLink:hover{background:rgba(127,127,127,.07)}.sourceLink small{display:block;color:var(--muted);font-weight:600;margin-top:3px;line-height:1.3}.sourceArrow{font-size:18px;color:var(--accent)}.sourceWarning{padding:0 14px 14px;color:var(--muted);font-size:12px;line-height:1.45}.form990Controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}.miniBtn{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:9px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.form990Grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 10px}.form990Option{display:flex;align-items:flex-start;gap:9px;padding:9px 10px;border:1px solid transparent;border-radius:10px;font-size:13px;font-weight:650;line-height:1.35;cursor:pointer}.form990Option:hover{background:rgba(127,127,127,.06)}.form990Option input{width:18px;height:18px;flex:0 0 auto;margin-top:1px;accent-color:var(--accent)}.form990Actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.form990Note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.45}@media(max-width:700px){.sourceLookup{grid-template-columns:1fr}.sourceGrid{grid-template-columns:1fr}.sourceIdentity{flex-direction:column}.form990Grid{grid-template-columns:1fr}.form990Panel{padding:14px}}
+
+    .sourceHeading{margin:0 0 12px;font-size:15px;letter-spacing:.02em;color:var(--ink)}
+    .paidHeading{margin-top:28px}
+    .sourceGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .sourceCard{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff;text-decoration:none;color:var(--ink);transition:.16s ease;min-height:72px}
+    .sourceCard:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(21,50,76,.10);border-color:#a9bdca}
+    .sourceCard > span:last-child{display:flex;flex-direction:column;min-width:0}
+    .sourceCard strong{font-size:13px;line-height:1.2}
+    .sourceCard small{font-size:11px;line-height:1.35;color:var(--muted);margin-top:4px}
+    .sourceIcon{width:44px;height:44px;flex:0 0 44px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:#eef4f6;color:#174b61;font-size:10px;font-weight:800;letter-spacing:.02em;text-align:center}
+    .sourceCard.paid .sourceIcon{background:#f3f0e8;color:#66521f}
+    .sourceNote{margin-top:18px;padding:14px 16px;border-radius:12px;background:#f6f8f9;border:1px solid var(--line);font-size:12px;line-height:1.5;color:var(--muted)}
+    @media(max-width:900px){.sourceGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:560px){.sourceGrid{grid-template-columns:1fr}}
+
+.logoIcon{display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff}.logoIcon img{width:40px;height:40px;object-fit:contain;display:block}
+
+.stateNewsBox{margin-top:28px;padding:18px;border:1px solid var(--line);border-radius:16px;background:rgba(127,127,127,.025)}
+.stateNewsHead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:14px}
+.stateNewsHead h4{margin:0;font-size:15px;letter-spacing:.02em;color:var(--ink)}
+.stateNewsHead p{margin:5px 0 0;font-size:12px;line-height:1.45;color:var(--muted)}
+.stateNewsSelect{min-width:240px}
+.stateNewsSelect select{width:100%;min-height:46px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);font:inherit;padding:10px 12px}
+.stateResourceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stateResourceEmpty{padding:18px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:12px;line-height:1.45}
+@media(max-width:700px){.stateNewsHead{display:block}.stateNewsSelect{min-width:0;margin-top:12px}.stateResourceGrid{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <img class="appIcon" src="pocket-cfo-icon-1024.png" alt="Pocket CFO">
+      <div>
+        <h1>Pocket <span>CFO</span></h1>
+        <div class="brandSub">Healthcare Finance Intelligence</div>
+        <div class="brandLine">Insights • Decisions • Better Outcomes</div>
+      </div>
+    </div>
+    <div class="creator">
+      Created by
+      <strong>Ryan J. Powers</strong>
+      <div class="miniRule"></div>
+      Practical tools for stronger healthcare finance decisions
+    </div>
+  </header>
+
+  <nav class="nav">
+    <button class="navBtn active" data-section="home"><span class="ico">⌂</span>Home<small>Dashboard</small></button>
+    <button class="navBtn" data-section="trends"><span class="ico">▥</span>Trends<small>Market Intelligence</small></button>
+    <button class="navBtn" data-section="decision"><span class="ico">▣</span>Decision Center<small>Evaluate & Compare</small></button>
+    <button class="navBtn" data-section="news"><span class="ico">◫</span>News<small>Research Sources</small></button>
+    <button class="navBtn" data-section="saved"><span class="ico">⚙</span>Saved<small>History & Settings</small></button>
+  </nav>
+
+  <section id="home" class="section active">
+    <div class="hero">
+      <div class="heroGrid">
+        <div>
+          <div class="heroEyebrow">Healthcare Finance Intelligence</div>
+          <h2>Smarter Insights.<br><span>Stronger Decisions.</span></h2>
+          <p>Your on demand healthcare finance analyst. Built for real world decisions, executive finance intelligence, and practical action.</p>
+          <div class="heroChips">
+            <div class="heroChip">💡 Analyze trends and risk</div>
+            <div class="heroChip">▦ Evaluate opportunities</div>
+            <div class="heroChip">▤ Plan strategy and growth</div>
+            <div class="heroChip">👥 Deliver better outcomes</div>
+          </div>
+        </div>
+        <img class="heroIcon" src="pocket-cfo-icon-1024.png" alt="Pocket CFO icon">
+      </div>
+    </div>
+
+    <div class="valueGrid">
+      <div class="valueCard"><div class="valueIcon">▥</div><div><strong>FASTER ANALYSIS</strong><span>Turn complex healthcare finance issues into clear executive insight.</span></div></div>
+      <div class="valueCard"><div class="valueIcon">◎</div><div><strong>BETTER DECISIONS</strong><span>Evaluate options with structured financial and strategic analysis.</span></div></div>
+      <div class="valueCard"><div class="valueIcon">👥</div><div><strong>STRONGER PERFORMANCE</strong><span>Improve margin, cash, productivity, growth, and capital discipline.</span></div></div>
+      <div class="valueCard"><div class="valueIcon">🏆</div><div><strong>HEALTHIER COMMUNITIES</strong><span>Connect financial strength to access, mission, and sustainable impact.</span></div></div>
+    </div>
+
+    <div class="askCard">
+      <div class="askTitle">Ask Pocket CFO</div>
+      <div class="askSub">Ask any healthcare finance question or dictate it.</div>
+      <div class="askRow">
+        <textarea id="homeQuestion" placeholder="Ask any healthcare finance question or dictate it."></textarea>
+        <button class="micBtn" data-mic-target="homeQuestion" aria-label="Dictate question">🎤</button>
+      </div>
+      <div class="exampleLabel">Try an example:</div>
+      <div class="chips">
+        <button class="chip" data-example="Impact of site of care migration">Impact of site of care migration</button>
+        <button class="chip" data-example="Analyze labor trends">Analyze labor trends</button>
+        <button class="chip" data-example="Evaluate a capital investment">Evaluate a capital investment</button>
+        <button class="chip" data-example="Summarize new healthcare legislation">Summarize new legislation</button>
+      </div>
+      <button class="primaryBtn" id="getAnalysis">➤ Get Analysis</button>
+      <div class="secondaryGrid">
+        <button class="secondaryBtn" id="openChat">↗ Open in ChatGPT</button>
+        <button class="secondaryBtn" id="saveHome">▤ Save to History</button>
+      </div>
+      <div id="homeStatus" class="status"></div>
+    </div>
+  </section>
+
+  <section id="trends" class="section">
+    <div class="card">
+      <div class="cardHead"><h3>CFO Market Intelligence</h3><p>Select an area to build a current executive research request.</p></div>
+      <div class="cardBody">
+        <div id="topicGrid" class="topicGrid"></div>
+        <div class="groupTitle">Research settings</div>
+        <div class="formGrid">
+          <div class="field"><label>Time horizon</label><select id="timeframe"><option>Current 2026 trends</option><option>Last 30 days</option><option>Last 90 days</option><option>Next 12 to 36 months</option></select></div>
+          <div class="field geoField"><label>Geographic focus</label>
+            <details id="geoPicker" class="geoPicker">
+              <summary id="geoSummary">United States</summary>
+              <div class="geoMenu">
+                <label class="geoOption geoNational"><input type="checkbox" id="geoUS" checked> <span>United States</span></label>
+                <div class="geoDivider">State emphasis</div>
+                <div id="stateCheckboxes" class="stateCheckboxes"></div>
+              </div>
+            </details>
+          </div>
+          <div class="field"><label>Organization context</label><input id="orgContext" placeholder="Optional health system context"></div>
+          <div class="field hospitalFocusField" id="hospitalFocusField" hidden>
+            <label>Hospital focus</label>
+            <div id="hospitalSelectors" class="hospitalSelectors"></div>
+          </div>
+        </div>
+        <div id="form990Panel" class="form990Panel" hidden>
+          <div class="form990Head">
+            <div><h4>Form 990 Center</h4><p>Open the filed return and schedules directly. Use AI analysis only when you want interpretation, comparisons, ratios, or an executive briefing.</p></div>
+          </div>
+          <div class="form990Tabs">
+            <button type="button" class="form990Tab active" data-990-pane="source990Pane">Source Navigator</button>
+            <button type="button" class="form990Tab" data-990-pane="analysis990Pane">AI Analysis</button>
+          </div>
+
+          <div id="source990Pane" class="form990Pane">
+            <div class="form990SelectorBox">
+              <div class="form990SelectorHead"><strong>Select one organization for Form 990 lookup</strong><span>Choose either a health system or an individual hospital. The filing EIN is resolved automatically.</span></div>
+              <div class="form990Controls" style="margin-top:12px">
+                <label class="form990Option"><input type="radio" name="form990OrgType" value="system" checked><span>Health system</span></label>
+                <label class="form990Option"><input type="radio" name="form990OrgType" value="hospital"><span>Individual hospital</span></label>
+              </div>
+              <div class="form990SelectorGrid">
+                <div class="field">
+                  <label>State</label>
+                  <select id="form990State"><option value="">Choose a state</option></select>
+                </div>
+                <div class="field" id="form990SystemField">
+                  <label>Health system</label>
+                  <div style="display:flex;gap:8px">
+                    <input id="form990SystemQuery" placeholder="Example: Corewell Health" style="flex:1">
+                    <button type="button" class="miniBtn" id="find990Systems">Find</button>
+                  </div>
+                  <details class="hospitalMulti" id="form990SystemPicker" style="margin-top:8px">
+                    <summary id="form990SystemSummary">Choose one health system</summary>
+                    <div id="form990SystemChoices" class="hospitalChoices"><div class="hospitalChoice">Enter a system name and select Find.</div></div>
+                  </details>
+                </div>
+                <div class="field" id="form990HospitalField" hidden>
+                  <label>Hospital</label>
+                  <details class="hospitalMulti" id="form990HospitalPicker">
+                    <summary id="form990HospitalSummary">Choose one hospital</summary>
+                    <div id="form990HospitalChoices" class="hospitalChoices"><div class="hospitalChoice">Choose a state first.</div></div>
+                  </details>
+                </div>
+              </div>
+              <div class="hospitalMeta" id="form990HospitalMeta">Health system mode searches nonprofit filing records directly. Individual hospital mode uses the hospital name to identify the most likely legal filing entity or parent system.</div>
+            </div>
+            <div class="sourceLookup">
+              <div class="field">
+                <label>Selected filing target</label>
+                <input id="form990Org" placeholder="Select a health system or hospital above" readonly>
+              </div>
+              <input id="form990ResolvedEin" type="hidden">
+              <button type="button" class="btn primary" id="find990Source">Find Latest Filing</button>
+            </div>
+            <div id="form990SourceResult" class="sourceResult" hidden>
+              <div class="sourceIdentity">
+                <div>
+                  <strong id="form990SourceName">Form 990 source</strong>
+                  <div id="form990SourceMeta" class="sourceMeta"></div>
+                </div>
+                <div id="form990SourceStatus" class="sourceStatus"></div>
+              </div>
+              <div id="form990SourceGrid" class="sourceGrid"></div>
+              <div class="sourceWarning">Source Navigator opens public IRS filing information through ProPublica Nonprofit Explorer and the IRS. Known system relationships are resolved directly when available. Verify the legal filing entity before assigning system data to an individual hospital.</div>
+            </div>
+          </div>
+
+          <div id="analysis990Pane" class="form990Pane" hidden>
+            <div class="form990Controls">
+              <button type="button" class="miniBtn" id="form990SelectAll">Select all</button>
+              <button type="button" class="miniBtn" id="form990Clear">Clear</button>
+            </div>
+            <div id="form990Grid" class="form990Grid"></div>
+            <div class="form990Actions">
+              <button type="button" class="btn primary" id="run990">Analyze Form 990</button>
+            </div>
+            <div class="form990Note">AI analysis identifies the legal nonprofit entity and EIN, then interprets the selected Form 990 sections. Parent or group return data should not be attributed to an individual hospital unless the filing supports it.</div>
+          </div>
+
+          <div class="form990Actions"><button type="button" class="btn" id="close990">Close</button></div>
+        </div>
+        <div id="trendStatus" class="status"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="decision" class="section">
+    <div class="card">
+      <div class="cardHead"><h3>Executive Decision Center</h3><p>Evaluate capital, growth, service line, partnership, sourcing, technology, and operating decisions.</p></div>
+      <div class="cardBody">
+        <div class="field"><label>Decision to evaluate</label><div class="askRow"><textarea id="decisionText" placeholder="Example: Should we purchase a surgical robot?"></textarea><button class="micBtn" data-mic-target="decisionText">🎤</button></div></div>
+        <div class="groupTitle">Core economics</div>
+        <div class="formGrid">
+          <div class="field"><label>Purchase price or capital</label><input id="capital" inputmode="numeric" placeholder="$0"></div>
+          <div class="field"><label>Implementation cost</label><input id="implementation" inputmode="numeric" placeholder="$0"></div>
+          <div class="field"><label>Annual revenue</label><input id="revenue" inputmode="numeric" placeholder="$0"></div>
+          <div class="field"><label>Annual operating expense</label><input id="expense" inputmode="numeric" placeholder="$0"></div>
+          <div class="field"><label>Annual labor expense</label><input id="labor" inputmode="numeric" placeholder="$0"></div>
+          <div class="field"><label>Reimbursement per case</label><input id="reimbursement" inputmode="numeric" placeholder="$0"></div>
+        </div>
+        <div class="groupTitle">Volume, market, and capacity</div>
+        <div class="formGrid">
+          <div class="field"><label>Current annual volume</label><input id="currentVolume" inputmode="numeric" placeholder="0"></div>
+          <div class="field"><label>Projected annual volume</label><input id="projectedVolume" inputmode="numeric" placeholder="0"></div>
+          <div class="field"><label>Market size or annual cases</label><input id="marketSize" inputmode="numeric" placeholder="0"></div>
+          <div class="field"><label>Current market share</label><input id="currentShare" placeholder="20%"></div>
+          <div class="field"><label>Target market share</label><input id="targetShare" placeholder="25%"></div>
+          <div class="field"><label>Incremental FTEs</label><input id="fte" inputmode="decimal" placeholder="0"></div>
+          <div class="field"><label>Capacity or utilization</label><input id="capacity" placeholder="75% utilization"></div>
+          <div class="field"><label>Implementation timing</label><input id="timing" placeholder="6 months"></div>
+          <div class="field"><label>Useful life</label><input id="life" placeholder="7 years"></div>
+        </div>
+        <div class="groupTitle">Decision context</div>
+        <div class="formGrid">
+          <div class="field"><label>Strategic rationale</label><textarea id="strategic" placeholder="Growth, access, quality, physician alignment, capacity, mission, or competitive position."></textarea></div>
+          <div class="field"><label>Known risks or constraints</label><textarea id="risks" placeholder="Capital, staffing, reimbursement, execution, regulatory, or technology risk."></textarea></div>
+          <div class="field"><label>Alternatives to compare</label><textarea id="alternatives" placeholder="Status quo, lease, outsource, partner, renovate, defer, or other alternatives."></textarea></div>
+        </div>
+        <div class="previewGrid">
+          <div class="preview"><span>Annual margin</span><strong id="pvMargin">Not enough data</strong></div>
+          <div class="preview"><span>Simple ROI</span><strong id="pvROI">Not enough data</strong></div>
+          <div class="preview"><span>Simple payback</span><strong id="pvPayback">Not enough data</strong></div>
+          <div class="preview"><span>Data completeness</span><strong id="pvComplete">0%</strong></div>
+        </div>
+        <div class="actionRow">
+          <button class="btn primary" id="runDecision">Create Full Evaluation</button>
+          <button class="btn" id="saveDecision">Save Draft</button>
+          <button class="btn" id="clearDecision">Clear</button>
+        </div>
+        <div id="decisionStatus" class="status"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <div class="cardHead"><h3>Executive SBAR</h3><p>Create an SBAR independently when you need a concise executive decision summary. It is separate from the full evaluation above.</p></div>
+      <div class="cardBody">
+        <div class="formGrid">
+          <div class="field"><label>Decision or issue</label><textarea id="sbarDecision" placeholder="What decision needs to be made?"></textarea></div>
+          <div class="field"><label>Financial inputs</label><textarea id="sbarFinancial" placeholder="Capital, revenue, expense, margin, volume, reimbursement, or cash impact."></textarea></div>
+          <div class="field"><label>Operational and strategic context</label><textarea id="sbarContext" placeholder="Operations, market, workforce, strategy, risks, timing, and alternatives."></textarea></div>
+        </div>
+        <div class="actionRow">
+          <button class="btn primary" id="runSBAR">Create Executive SBAR</button>
+          <button class="btn" id="saveSBAR">Save to History</button>
+        </div>
+        <div id="sbarStatus" class="status"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="news" class="section">
+    <div class="card">
+      <div class="cardHead"><h3>Healthcare Finance News & Research</h3><p>Direct access to authoritative public sources and subscription resources used for healthcare finance intelligence.</p></div>
+      <div class="cardBody">
+        <h4 class="sourceHeading">Public and Open Sources</h4>
+        <div class="sourceGrid">
+          <a class="sourceCard" href="https://www.cms.gov/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=cms.gov&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>CMS</strong><small>Medicare, Medicaid, payment rules, data</small></span></a>
+          <a class="sourceCard" href="https://www.hhs.gov/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=hhs.gov&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>HHS</strong><small>Federal health policy and regulation</small></span></a>
+          <a class="sourceCard" href="https://www.federalregister.gov/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=federalregister.gov&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>Federal Register</strong><small>Proposed and final federal rules</small></span></a>
+          <a class="sourceCard" href="https://www.congress.gov/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=congress.gov&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>Congress.gov</strong><small>Legislation, committees, public laws</small></span></a>
+          <a class="sourceCard" href="https://www.medpac.gov/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=medpac.gov&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>MedPAC</strong><small>Medicare policy, payment and utilization</small></span></a>
+          <a class="sourceCard" href="https://www.macpac.gov/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=macpac.gov&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>MACPAC</strong><small>Medicaid and CHIP policy</small></span></a>
+          <a class="sourceCard" href="https://www.bls.gov/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=bls.gov&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>BLS</strong><small>Labor, wages, employment and inflation</small></span></a>
+          <a class="sourceCard" href="https://www.bea.gov/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=bea.gov&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>BEA</strong><small>Economic and healthcare spending data</small></span></a>
+          <a class="sourceCard" href="https://www.sec.gov/edgar/search/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=sec.gov&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>SEC EDGAR</strong><small>Payer and public company filings</small></span></a>
+          <a class="sourceCard" href="https://www.ftc.gov/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=ftc.gov&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>FTC</strong><small>Competition, transactions and enforcement</small></span></a>
+          <a class="sourceCard" href="https://www.justice.gov/atr" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=justice.gov&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>DOJ Antitrust</strong><small>Healthcare competition and enforcement</small></span></a>
+          <a class="sourceCard" href="https://www.kff.org/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=kff.org&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>KFF</strong><small>Coverage, payer and policy analysis</small></span></a>
+          <a class="sourceCard" href="https://www.aha.org/news" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=aha.org&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>AHA News</strong><small>Hospital policy and industry updates</small></span></a>
+          <a class="sourceCard" href="https://www.beckershospitalreview.com/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=beckershospitalreview.com&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>Becker's Hospital Review</strong><small>Health system and executive news</small></span></a>
+          <a class="sourceCard" href="https://www.fiercehealthcare.com/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=fiercehealthcare.com&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>Fierce Healthcare</strong><small>Payer, provider and digital health news</small></span></a>
+          <a class="sourceCard" href="https://www.healthcaredive.com/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=healthcaredive.com&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>Healthcare Dive</strong><small>Provider, payer and regulatory news</small></span></a>
+        </div>
+
+        <h4 class="sourceHeading paidHeading">Paid and Member Resources</h4>
+        <div class="sourceGrid">
+          <a class="sourceCard paid" href="https://www.advisory.com/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=advisory.com&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>Advisory Board</strong><small>Strategy, research and benchmarks</small></span></a>
+          <a class="sourceCard paid" href="https://www.hfma.org/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=hfma.org&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>HFMA</strong><small>Healthcare finance guidance and member content</small></span></a>
+          <a class="sourceCard paid" href="https://www.modernhealthcare.com/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=modernhealthcare.com&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>Modern Healthcare</strong><small>Industry news and market intelligence</small></span></a>
+          <a class="sourceCard paid" href="https://www.spglobal.com/ratings/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=spglobal.com&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>S&amp;P Global Ratings</strong><small>Credit, capital markets and sector outlooks</small></span></a>
+          <a class="sourceCard paid" href="https://ratings.moodys.com/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=moodys.com&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>Moody's Ratings</strong><small>Credit research and sector analysis</small></span></a>
+          <a class="sourceCard paid" href="https://www.fitchratings.com/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=fitchratings.com&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>Fitch Ratings</strong><small>Not for profit healthcare credit research</small></span></a>
+          <a class="sourceCard paid" href="https://www.kaufmanhall.com/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=kaufmanhall.com&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>Kaufman Hall</strong><small>Performance, strategy and capital insights</small></span></a>
+          <a class="sourceCard paid" href="https://www.statnews.com/" target="_blank" rel="noopener"><span class="sourceIcon logoIcon"><img src="https://www.google.com/s2/favicons?domain=statnews.com&amp;sz=128" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><span><strong>STAT</strong><small>Healthcare, biotech and policy reporting</small></span></a>
+        </div>
+        <div class="sourceNote"><strong>Credentials:</strong> Pocket CFO does not store third party passwords. Sign in on the source site and use your browser or device password manager to save credentials securely. Future visits from these buttons can then use the saved sign in.</div>
+
+
+
+        <div class="stateNewsBox">
+          <div class="stateNewsHead">
+            <div>
+              <h4>State Advocacy and Healthcare Resources</h4>
+              <p>Choose a state to display healthcare advocacy, policy, regulatory, legislative, payer, and market intelligence resources relevant to that state.</p>
+            </div>
+            <div class="stateNewsSelect">
+              <select id="newsStateSelect" aria-label="Choose a state">
+                <option value="">Choose a state</option>
+                <option value="Alabama">Alabama</option>
+<option value="Alaska">Alaska</option>
+<option value="Arizona">Arizona</option>
+<option value="Arkansas">Arkansas</option>
+<option value="California">California</option>
+<option value="Colorado">Colorado</option>
+<option value="Connecticut">Connecticut</option>
+<option value="Delaware">Delaware</option>
+<option value="Florida">Florida</option>
+<option value="Georgia">Georgia</option>
+<option value="Hawaii">Hawaii</option>
+<option value="Idaho">Idaho</option>
+<option value="Illinois">Illinois</option>
+<option value="Indiana">Indiana</option>
+<option value="Iowa">Iowa</option>
+<option value="Kansas">Kansas</option>
+<option value="Kentucky">Kentucky</option>
+<option value="Louisiana">Louisiana</option>
+<option value="Maine">Maine</option>
+<option value="Maryland">Maryland</option>
+<option value="Massachusetts">Massachusetts</option>
+<option value="Michigan">Michigan</option>
+<option value="Minnesota">Minnesota</option>
+<option value="Mississippi">Mississippi</option>
+<option value="Missouri">Missouri</option>
+<option value="Montana">Montana</option>
+<option value="Nebraska">Nebraska</option>
+<option value="Nevada">Nevada</option>
+<option value="New Hampshire">New Hampshire</option>
+<option value="New Jersey">New Jersey</option>
+<option value="New Mexico">New Mexico</option>
+<option value="New York">New York</option>
+<option value="North Carolina">North Carolina</option>
+<option value="North Dakota">North Dakota</option>
+<option value="Ohio">Ohio</option>
+<option value="Oklahoma">Oklahoma</option>
+<option value="Oregon">Oregon</option>
+<option value="Pennsylvania">Pennsylvania</option>
+<option value="Rhode Island">Rhode Island</option>
+<option value="South Carolina">South Carolina</option>
+<option value="South Dakota">South Dakota</option>
+<option value="Tennessee">Tennessee</option>
+<option value="Texas">Texas</option>
+<option value="Utah">Utah</option>
+<option value="Vermont">Vermont</option>
+<option value="Virginia">Virginia</option>
+<option value="Washington">Washington</option>
+<option value="West Virginia">West Virginia</option>
+<option value="Wisconsin">Wisconsin</option>
+<option value="Wyoming">Wyoming</option>
+<option value="District of Columbia">District of Columbia</option>
+              </select>
+            </div>
+          </div>
+          <div id="stateResourceGrid" class="stateResourceGrid">
+            <div class="stateResourceEmpty">Select a state to display healthcare advocacy, regulatory, legislative, payer, and market resources.</div>
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
+  </section>
+
+  <section id="saved" class="section">
+    <div class="card">
+      <div class="cardHead"><h3>Saved History</h3><p>Items saved on this device stay in your browser.</p></div>
+      <div class="cardBody">
+        <div id="savedList"></div>
+        <div class="actionRow"><button class="btn" id="clearHistory">Clear History</button></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>◈ Built for healthcare finance professionals</span>
+    <span>|</span>
+    <span>No API key required</span>
+    <span>|</span>
+    <span>Your saved history stays in your browser</span>
+  </footer>
+</div>
+
+<script>
+const CHATGPT_URL="https://chatgpt.com/?q=";
+const topics=[
+["CFO Full Scan","All major healthcare finance trends a health system CFO should monitor"],
+["Utilization","Admissions, ED, surgery, ambulatory, and demand trends"],
+["Payer Issues","Commercial, government, and reimbursement pressure"],
+["Government","CMS, HHS, federal policy, and payment changes"],
+["Legislative","Federal and state legislation affecting healthcare finance"],
+["Labor","Wages, turnover, staffing, productivity, and premium labor"],
+["Revenue Cycle","Denials, authorization, AR, cash collection, and revenue realization"],
+["Medicare Advantage","Rates, utilization management, coding, and payer behavior"],
+["Physician Enterprise","Compensation, subsidies, access, productivity, and downstream value"],
+["Margin and Cost","Operating margin, expense pressure, and profitability"],
+["Site of Care","Ambulatory, ASC, outpatient migration, and network strategy"],
+["Pharmacy","Drug cost, specialty pharmacy, and 340B"],
+["Technology and AI","AI, automation, productivity, investment, and cyber risk"],
+["Capital and Liquidity","Debt, liquidity, ratings, and capital allocation"],
+["Mergers and Growth","M&A, JVs, affiliations, partnerships, and growth"],
+["Competitor Watch","Health system strategies, investments, and financial results"],
+["Emerging Risks","Early signals that could materially affect financial performance"],
+["Form 990 / Tax Returns","IRS Form 990 financial, compensation, governance, community benefit, debt, related organization, and tax return information"],
+["Opportunities","Current opportunities to improve margin, cash, productivity, or growth"]
+];
+
+const $=id=>document.getElementById(id);
+
+function showSection(id){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll(".navBtn").forEach(b=>b.classList.remove("active"));
+  $(id).classList.add("active");
+  document.querySelector(`.navBtn[data-section="${id}"]`).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".navBtn").forEach(b=>b.addEventListener("click",()=>showSection(b.dataset.section)));
+
+
+const US_STATES = [
+  ["AL","Alabama"],["AK","Alaska"],["AZ","Arizona"],["AR","Arkansas"],["CA","California"],["CO","Colorado"],["CT","Connecticut"],["DE","Delaware"],["FL","Florida"],["GA","Georgia"],["HI","Hawaii"],["ID","Idaho"],["IL","Illinois"],["IN","Indiana"],["IA","Iowa"],["KS","Kansas"],["KY","Kentucky"],["LA","Louisiana"],["ME","Maine"],["MD","Maryland"],["MA","Massachusetts"],["MI","Michigan"],["MN","Minnesota"],["MS","Mississippi"],["MO","Missouri"],["MT","Montana"],["NE","Nebraska"],["NV","Nevada"],["NH","New Hampshire"],["NJ","New Jersey"],["NM","New Mexico"],["NY","New York"],["NC","North Carolina"],["ND","North Dakota"],["OH","Ohio"],["OK","Oklahoma"],["OR","Oregon"],["PA","Pennsylvania"],["RI","Rhode Island"],["SC","South Carolina"],["SD","South Dakota"],["TN","Tennessee"],["TX","Texas"],["UT","Utah"],["VT","Vermont"],["VA","Virginia"],["WA","Washington"],["WV","West Virginia"],["WI","Wisconsin"],["WY","Wyoming"],["DC","District of Columbia"]
+];
+const stateNameByCode = Object.fromEntries(US_STATES);
+const hospitalCache = {};
+const CMS_HOSPITAL_API = "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0";
+
+function selectedStateCodes(){
+  return [...document.querySelectorAll('.stateGeo:checked')].map(x=>x.value);
+}
+function updateGeoSummary(){
+  const us = $("geoUS").checked;
+  const states = selectedStateCodes().map(c=>stateNameByCode[c]);
+  let text = "United States";
+  if(us && states.length) text += " + " + states.join(", ");
+  else if(!us && states.length) text = states.join(", ");
+  else if(!us) { $("geoUS").checked = true; text = "United States"; }
+  $("geoSummary").textContent = text;
+}
+function hospitalPromptContext(){
+  const us = $("geoUS")?.checked !== false;
+  const codes = selectedStateCodes();
+  const names = codes.map(c=>stateNameByCode[c]);
+  let geoLine = "Geographic focus: United States.";
+  if(us && names.length) geoLine += " State emphasis: " + names.join(", ") + ".";
+  if(!us && names.length) geoLine = "Geographic focus: " + names.join(", ") + ".";
+  const hospitalSelections = codes.map(code=>{
+    const checked=[...document.querySelectorAll(`#hospitalWrap_${code} .hospitalCheck:checked`)];
+    if(!checked.length) return null;
+    return stateNameByCode[code] + ": " + checked.map(x=>x.dataset.label).join(", ");
+  }).filter(Boolean);
+  if(hospitalSelections.length) geoLine += " Hospital emphasis: " + hospitalSelections.join("; ") + ".";
+  return geoLine;
+}
+function properHospitalName(value){
+  const small=new Set(["and","of","the","at","in","for"]);
+  return String(value||"").toLowerCase().replace(/\b[a-z][a-z']*\b/g,(w,offset)=>{
+    if(offset>0 && small.has(w)) return w;
+    return w.charAt(0).toUpperCase()+w.slice(1);
+  }).replace(/\bVa\b/g,"VA").replace(/\bCms\b/g,"CMS");
+}
+
+let hospitalDirectoryRows=null;
+const CMS_HOSPITAL_CSV="https://data.cms.gov/provider-data/sites/default/files/resources/893c372430d9d71a1c52737d01239d47_1785189955/Hospital_General_Information.csv";
+const HOSPITAL_CSV_FALLBACK="https://raw.githubusercontent.com/michaelessiful-netizen/CMS-Hospital-Rating-Analysis/refs/heads/main/Hospital_General_Information.csv";
+function parseCsvRows(text){
+  const rows=[]; let row=[], field="", q=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(q){
+      if(ch==='"'){
+        if(text[i+1]==='"'){field+='"';i++;} else q=false;
+      }else field+=ch;
+    }else{
+      if(ch==='"') q=true;
+      else if(ch===','){row.push(field);field="";}
+      else if(ch==='\n'){row.push(field);rows.push(row);row=[];field="";}
+      else if(ch!=='\r') field+=ch;
+    }
+  }
+  if(field.length||row.length){row.push(field);rows.push(row);}
+  return rows;
+}
+async function loadHospitalDirectory(){
+  if(hospitalDirectoryRows) return hospitalDirectoryRows;
+  let lastErr=null;
+  for(const url of [CMS_HOSPITAL_CSV,HOSPITAL_CSV_FALLBACK]){
+    try{
+      const r=await fetch(url,{cache:"no-store"});
+      if(!r.ok) throw new Error("Hospital directory download failed");
+      const text=await r.text();
+      const rows=parseCsvRows(text);
+      const hdr=rows.shift().map(x=>x.trim().toLowerCase());
+      const idx={
+        id:hdr.indexOf("facility id"),
+        name:hdr.indexOf("facility name"),
+        city:hdr.indexOf("city/town"),
+        state:hdr.indexOf("state")
+      };
+      if(Object.values(idx).some(v=>v<0)) throw new Error("Hospital directory format not recognized");
+      hospitalDirectoryRows=rows.map(r=>({
+        facility_id:r[idx.id]||"",
+        facility_name:r[idx.name]||"",
+        citytown:r[idx.city]||"",
+        state:r[idx.state]||""
+      })).filter(h=>h.facility_name&&h.state);
+      return hospitalDirectoryRows;
+    }catch(e){lastErr=e;}
+  }
+  throw lastErr||new Error("Hospital directory unavailable");
+}
+async function fetchHospitalsForState(code){
+  if(hospitalCache[code]) return hospitalCache[code];
+  const all=(await loadHospitalDirectory()).filter(h=>h.state===code);
+  const seen=new Set();
+  const cleaned=all.filter(h=>{
+    const key=h.facility_id||[h.facility_name,h.citytown,h.state].join("|");
+    if(seen.has(key)) return false;
+    seen.add(key); return true;
+  }).sort((a,b)=>(a.facility_name||"").localeCompare(b.facility_name||""));
+  hospitalCache[code]=cleaned;
+  return cleaned;
+}
+async function createHospitalSelector(code){
+  const holder=$("hospitalSelectors");
+  const focusField=$("hospitalFocusField");
+  if(focusField) focusField.hidden=false;
+  if($("hospitalWrap_"+code)) return;
+  const stateName=stateNameByCode[code];
+  const wrap=document.createElement("div");
+  wrap.className="hospitalPicker";
+  wrap.id="hospitalWrap_"+code;
+  wrap.innerHTML=`<label>${stateName} hospital emphasis</label><details class="hospitalMulti" id="hospitalMulti_${code}"><summary id="hospitalSummary_${code}">All hospitals in ${stateName}</summary><div class="hospitalChoices" id="hospitalChoices_${code}"><div class="hospitalChoice">Loading current CMS hospitals...</div></div></details><div class="hospitalMeta" id="hospitalMeta_${code}">CMS Hospital General Information</div>`;
+  holder.appendChild(wrap);
+  const choices=$("hospitalChoices_"+code), meta=$("hospitalMeta_"+code), summary=$("hospitalSummary_"+code);
+  try{
+    const hospitals=await fetchHospitalsForState(code);
+    choices.innerHTML="";
+    hospitals.forEach(h=>{
+      const label=document.createElement("label");
+      label.className="hospitalChoice";
+      const city=h.citytown?properHospitalName(h.citytown):"";
+      const name=properHospitalName(h.facility_name||"Hospital");
+      const id=h.facility_id?" | CMS "+h.facility_id:"";
+      const display=name+(city?", "+city:"")+id;
+      label.innerHTML=`<input type="checkbox" class="hospitalCheck" value="${h.facility_id||""}"><span></span>`;
+      const input=label.querySelector("input");
+      input.dataset.label=display;
+      label.querySelector("span").textContent=display;
+      input.addEventListener("change",()=>{
+        const checked=[...choices.querySelectorAll(".hospitalCheck:checked")];
+        summary.textContent=checked.length ? `${checked.length} hospital${checked.length===1?"":"s"} selected` : `All hospitals in ${stateName}`;
+        if($("form990Panel") && !$("form990Panel").hidden) sync990FromHospitalFocus();
+      });
+      choices.appendChild(label);
+    });
+    meta.textContent=hospitals.length.toLocaleString()+" current CMS hospitals found";
+  }catch(err){
+    choices.innerHTML=`<div class="hospitalChoice">Hospital directory could not load in this browser.</div>`;
+    meta.textContent="Hospital directory could not load in this browser. Try opening the published GitHub version.";
+    meta.classList.add("hospitalError");
+  }
+}
+
+function removeHospitalSelector(code){
+  $("hospitalWrap_"+code)?.remove();
+  const focusField=$("hospitalFocusField");
+  if(focusField && !selectedStateCodes().length) focusField.hidden=true;
+}
+function initializeGeography(){
+  const box=$("stateCheckboxes");
+  US_STATES.forEach(([code,name])=>{
+    const label=document.createElement("label");
+    label.className="geoOption";
+    label.innerHTML=`<input class="stateGeo" type="checkbox" value="${code}"> <span>${name}</span>`;
+    const input=label.querySelector("input");
+    input.addEventListener("change",()=>{
+      if(input.checked) createHospitalSelector(code); else removeHospitalSelector(code);
+      updateGeoSummary();
+    });
+    box.appendChild(label);
+  });
+  $("geoUS").addEventListener("change",updateGeoSummary);
+  updateGeoSummary();
+}
+initializeGeography();
+
+function buildCorePrompt(question){
+  const tf=$("timeframe")?.value||"Current 2026 trends";
+  const geoContext=hospitalPromptContext();
+  const ctx=$("orgContext")?.value.trim()||"";
+  return `Act as a healthcare finance intelligence analyst supporting a senior health system finance executive.
+
+ANALYZE: ${question}
+
+Time horizon: ${tf}.
+${geoContext}
+${ctx?`Organization context: ${ctx}.`:""}
+
+Research current information before answering. Use Healthcare Public Data for official CMS information where supported. For current governmental, regulatory, legislative, payer, labor, technology, market, capital, workforce, competitive, or other developments newer than CMS historical datasets, use current authoritative public sources. Prefer CMS, HHS, Federal Register, Congress.gov, MedPAC, MACPAC, BLS, BEA, SEC filings, payer filings, health system financial disclosures, rating agency publications when accessible, peer reviewed literature, and other high quality primary sources.
+
+Frame everything around material effects on hospital and health system revenue, margin, cash, cost structure, utilization, payer performance, physician economics, labor productivity, capital allocation, liquidity, and strategic position.
+
+FORMAT AS AN EXECUTIVE BRIEFING.
+
+# Executive Summary
+Keep this readable in one minute or less, 150 to 180 words maximum. Include the five most important conclusions, biggest financial risk, biggest financial opportunity, and one action to consider first. Bold the most important numbers.
+
+# Detailed Analysis
+Explain what is changing, evidence, financial significance, economics, 12 to 36 month implications, and management actions.
+
+# Financial Impact
+Quantify potential effects when reasonable. State assumptions clearly.
+
+# What I Should Watch
+List leading indicators, metrics, policy dates, market signals, and operating measures.
+
+# Recommended Actions
+Prioritize immediate and medium term actions.
+
+# Sources
+Provide clickable links to the most important current sources.
+
+Do not give generic commentary. Be specific, current, evidence based, and financially oriented.`;
+}
+
+async function copyText(text){
+  try{await navigator.clipboard.writeText(text);return true}
+  catch(e){return false}
+}
+async function openPrompt(text,statusEl){
+  if(statusEl)statusEl.textContent="Opening ChatGPT.";
+  await copyText(text);
+  window.open(CHATGPT_URL+encodeURIComponent(text),"_blank");
+}
+
+
+const KNOWN_990_SYSTEMS=[
+  {key:'corewell health',state:'MI',name:'Corewell Health',ein:'611740292',objectId:'202533219349303983',taxYear:'2024',label:'Corewell Health • Hospital group return',note:'Group return that operates hospital facilities and includes Schedule H.'},
+  {key:'corewell health corporate',state:'MI',name:'Corewell Health',ein:'383382353',objectId:'202503219349302710',taxYear:'2024',label:'Corewell Health • Corporate / system entity',note:'System entity that directly reports executive compensation and other corporate activity.'}
+];
+function known990Matches(query,stateCode=''){
+  const q=String(query||'').toLowerCase().trim();
+  if(!q) return [];
+  if(q.includes('corewell')) return KNOWN_990_SYSTEMS.filter(x=>!stateCode||x.state===stateCode);
+  return [];
+}
+function known990TargetForHospital(name,stateCode=''){
+  const q=String(name||'').toLowerCase();
+  if(q.includes('corewell health') && (!stateCode||stateCode==='MI')) return KNOWN_990_SYSTEMS[0];
+  return null;
+}
+function renderKnownSystemChoices(matches,choices,summary,meta){
+  choices.innerHTML='';
+  matches.forEach((org,i)=>{
+    const label=document.createElement('label');label.className='hospitalChoice';
+    label.innerHTML='<input type="radio" name="form990SystemRadio" class="form990SystemRadio"><span></span>';
+    const input=label.querySelector('input');
+    input.value=org.ein;input.dataset.name=org.name;input.dataset.label=org.label;input.dataset.objectId=org.objectId||'';input.dataset.taxYear=org.taxYear||'';
+    label.querySelector('span').textContent=org.label;
+    input.addEventListener('change',()=>{
+      if(!input.checked)return;
+      summary.textContent=org.label;
+      $('form990Org').value=org.name;
+      $('form990ResolvedEin').value=org.ein;
+      $('form990ResolvedEin').dataset.objectId=org.objectId||'';
+      $('form990ResolvedEin').dataset.taxYear=org.taxYear||'';
+      meta.textContent=`${org.note} EIN ${formatEin(org.ein)} resolved automatically.`;
+      $('form990SystemPicker').open=false;
+    });
+    if(i===0){input.checked=true;input.dispatchEvent(new Event('change'));}
+    choices.appendChild(label);
+  });
+}
+function render990SearchFallback(orgName,stateCode=''){
+  const result=$('form990SourceResult'),grid=$('form990SourceGrid');
+  result.hidden=false;
+  $('form990SourceName').textContent=orgName||'Form 990 search';
+  $('form990SourceMeta').textContent=`${stateCode?stateCode+' • ':''}EIN will be resolved on the filing website`;
+  $('form990SourceStatus').textContent='Search required';
+  const q=encodeURIComponent(orgName||'');
+  const links=[
+    ['Search Nonprofit Explorer','Search public nonprofit filing records by organization name',`https://projects.propublica.org/nonprofits/`],
+    ['Search IRS Records','Official IRS Tax Exempt Organization Search',irsSearchUrl()],
+    ['Search the web for the filing','Targeted search for this organization on Nonprofit Explorer',`https://www.google.com/search?q=${encodeURIComponent('site:projects.propublica.org/nonprofits/organizations "'+orgName+'" '+stateCode)}`]
+  ];
+  grid.innerHTML='';
+  links.forEach(([title,desc,url])=>{const a=document.createElement('a');a.className='sourceLink';a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.innerHTML=`<span><span>${title}</span><small>${desc}</small></span><span class="sourceArrow">›</span>`;grid.appendChild(a);});
+}
+
+const FORM990_SECTIONS=[
+  ["overview","Organization overview, EIN, tax year, filing status, and legal entity relationships"],
+  ["part1","Part I: Summary and key financial indicators"],
+  ["part3","Part III: Program service accomplishments and major programs"],
+  ["part6","Part VI: Governance, management, policies, and disclosure"],
+  ["part7","Part VII: Officers, directors, key employees, highest compensated employees, and compensation"],
+  ["part8","Part VIII: Revenue by source"],
+  ["part9","Part IX: Functional expenses and cost structure"],
+  ["part10","Part X: Balance sheet, liquidity, investments, debt, and net assets"],
+  ["part11","Part XI: Reconciliation of net assets"],
+  ["part12","Part XII: Financial statements and reporting"],
+  ["schedA","Schedule A: Public charity status and public support"],
+  ["schedD","Schedule D: Supplemental financial statements, investments, endowment, assets, liabilities, and debt"],
+  ["schedH","Schedule H: Hospital facilities, charity care, community benefit, bad debt, Medicare, and community building"],
+  ["schedI","Schedule I: Grants and assistance to organizations and individuals"],
+  ["schedJ","Schedule J: Executive compensation detail, benefits, severance, and supplemental compensation"],
+  ["schedK","Schedule K: Tax exempt bonds and bond compliance"],
+  ["schedL","Schedule L: Transactions with interested persons"],
+  ["schedR","Schedule R: Related organizations, partnerships, disregarded entities, and joint ventures"],
+  ["trends","Multi year trend analysis across available Form 990 filings"],
+  ["benchmark","Benchmark selected organizations or hospitals against peers"]
+];
+
+
+function firstCheckedHospitalFocus(){
+  const checked=[...document.querySelectorAll('.hospitalCheck:checked')];
+  if(!checked.length) return null;
+  const input=checked[0];
+  const wrap=input.closest('[id^="hospitalWrap_"]');
+  const code=wrap?wrap.id.replace('hospitalWrap_',''):'';
+  return {code,facilityId:input.value||'',label:input.dataset.label||'',name:(input.dataset.label||'').split(' | CMS ')[0].replace(/, [^,]+$/,'')};
+}
+function initialize990HospitalSelector(){
+  const state=$('form990State');
+  if(!state) return;
+  US_STATES.forEach(([code,name])=>{
+    const o=document.createElement('option');o.value=code;o.textContent=name;state.appendChild(o);
+  });
+  state.addEventListener('change',()=>{
+    const mode=document.querySelector('input[name="form990OrgType"]:checked')?.value||'system';
+    if(mode==='hospital') load990HospitalsForState(state.value);
+    $('form990ResolvedEin').value='';
+  });
+  document.querySelectorAll('input[name="form990OrgType"]').forEach(r=>r.addEventListener('change',()=>set990OrgMode(r.value)));
+  $('find990Systems').addEventListener('click',search990Systems);
+  $('form990SystemQuery').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();search990Systems();}});
+  set990OrgMode('system');
+}
+function set990OrgMode(mode){
+  const isSystem=mode==='system';
+  $('form990SystemField').hidden=!isSystem;
+  $('form990HospitalField').hidden=isSystem;
+  $('form990ResolvedEin').value='';
+  if(isSystem){
+    const q=$('form990SystemQuery').value.trim()||$('orgContext')?.value.trim()||'';
+    if(q){$('form990SystemQuery').value=q;$('form990Org').value=q;}
+    $('form990HospitalMeta').textContent='Health system mode searches nonprofit filing records and resolves the legal filing entity and EIN automatically.';
+  }else{
+    $('form990HospitalMeta').textContent='Individual hospital mode uses the selected hospital to identify the most likely nonprofit filing entity, parent organization, or group return.';
+    if($('form990State').value) load990HospitalsForState($('form990State').value);
+  }
+}
+async function search990Organizations(query,stateCode=''){
+  const q=String(query||'').trim();
+  if(!q) return [];
+  const params=new URLSearchParams({q});
+  if(stateCode) params.set('state[id]',stateCode);
+  params.set('c_code[id]','3');
+  const r=await fetch(`https://projects.propublica.org/nonprofits/api/v2/search.json?${params.toString()}`);
+  if(!r.ok) throw new Error('Organization search unavailable');
+  const data=await r.json();
+  return data.organizations||[];
+}
+function score990Candidate(org,query,stateCode=''){
+  const name=String(org.name||'').toLowerCase();
+  const q=String(query||'').toLowerCase().trim();
+  let score=Number(org.score||0);
+  if(name===q) score+=1000;
+  if(name.startsWith(q)) score+=500;
+  if(name.includes(q)) score+=250;
+  if(stateCode && String(org.state||'').toUpperCase()===stateCode.toUpperCase()) score+=100;
+  if(Number(org.subseccd)===3) score+=25;
+  return score;
+}
+async function search990Systems(){
+  const query=$('form990SystemQuery').value.trim()||$('orgContext')?.value.trim()||'';
+  const stateCode=$('form990State').value;
+  const choices=$('form990SystemChoices'), summary=$('form990SystemSummary'), meta=$('form990HospitalMeta');
+  if(!query){choices.innerHTML='<div class="hospitalChoice">Enter a health system name first.</div>';return;}
+  choices.innerHTML='<div class="hospitalChoice">Searching nonprofit filing records...</div>';
+  summary.textContent='Choose one health system';
+  $('form990ResolvedEin').value='';
+  $('form990ResolvedEin').dataset.objectId='';
+  $('form990ResolvedEin').dataset.taxYear='';
+  const known=known990Matches(query,stateCode);
+  if(known.length){renderKnownSystemChoices(known,choices,summary,meta);return;}
+  try{
+    let orgs=await search990Organizations(query,stateCode);
+    if(!orgs.length && stateCode) orgs=await search990Organizations(query,'');
+    orgs=orgs.sort((a,b)=>score990Candidate(b,query,stateCode)-score990Candidate(a,query,stateCode)).slice(0,12);
+    choices.innerHTML='';
+    if(!orgs.length){choices.innerHTML='<div class="hospitalChoice">No nonprofit filing entities matched this name.</div>';meta.textContent='Try the system legal name or a shorter system name.';return;}
+    orgs.forEach((org,i)=>{
+      const label=document.createElement('label');label.className='hospitalChoice';
+      const ein=String(org.ein||'').padStart(9,'0');
+      const display=`${properHospitalName(org.name||'Organization')}${org.city?', '+properHospitalName(org.city):''}${org.state?' '+org.state:''}`;
+      label.innerHTML='<input type="radio" name="form990SystemRadio" class="form990SystemRadio"><span></span>';
+      const input=label.querySelector('input');input.value=ein;input.dataset.name=org.name||query;input.dataset.label=display;
+      label.querySelector('span').textContent=display;
+      input.addEventListener('change',()=>{
+        if(!input.checked)return;
+        summary.textContent=display;
+        $('form990Org').value=properHospitalName(input.dataset.name);
+        $('form990ResolvedEin').value=ein;
+        meta.textContent=`Filing entity selected. EIN ${formatEin(ein)} was resolved automatically.`;
+        $('form990SystemPicker').open=false;
+      });
+      if(i===0 && orgs.length===1){input.checked=true;input.dispatchEvent(new Event('change'));}
+      choices.appendChild(label);
+    });
+    meta.textContent=`${orgs.length} likely nonprofit filing ${orgs.length===1?'entity':'entities'} found. Select one.`;
+    $('form990SystemPicker').open=true;
+  }catch(e){choices.innerHTML='<div class="hospitalChoice">Automatic filing search is blocked in this browser. You can still use the entered system name below.</div>'; $('form990Org').value=query; meta.textContent='Select Find Latest Filing to open a reliable filing search fallback.';}
+}
+async function load990HospitalsForState(code,preselectFacilityId=''){
+  const choices=$('form990HospitalChoices'), summary=$('form990HospitalSummary'), meta=$('form990HospitalMeta');
+  if(!code){choices.innerHTML='<div class="hospitalChoice">Choose a state first.</div>';summary.textContent='Choose one hospital';return;}
+  choices.innerHTML='<div class="hospitalChoice">Loading current CMS hospitals...</div>';
+  summary.textContent='Choose one hospital';
+  try{
+    const hospitals=await fetchHospitalsForState(code);
+    choices.innerHTML='';
+    hospitals.forEach(h=>{
+      const label=document.createElement('label');label.className='hospitalChoice';
+      const city=h.citytown?properHospitalName(h.citytown):'';
+      const name=properHospitalName(h.facility_name||'Hospital');
+      const id=h.facility_id?' | CMS '+h.facility_id:'';
+      const display=name+(city?', '+city:'')+id;
+      label.innerHTML='<input type="radio" name="form990HospitalRadio" class="form990HospitalRadio"><span></span>';
+      const input=label.querySelector('input');
+      input.value=h.facility_id||'';input.dataset.label=display;input.dataset.name=name;input.dataset.state=code;
+      label.querySelector('span').textContent=display;
+      input.addEventListener('change',()=>{
+        if(!input.checked)return;
+        summary.textContent=display;
+        $('form990Org').value=name;
+        $('form990ResolvedEin').value='';$('form990ResolvedEin').dataset.objectId='';$('form990ResolvedEin').dataset.taxYear='';
+        meta.textContent='Hospital selected. The app will identify the nonprofit filing entity and EIN automatically.';
+        $('form990HospitalPicker').open=false;
+      });
+      if(preselectFacilityId && h.facility_id===preselectFacilityId){input.checked=true;summary.textContent=display;$('form990Org').value=name;$('form990ResolvedEin').value='';}
+      choices.appendChild(label);
+    });
+    meta.textContent=hospitals.length.toLocaleString()+' current CMS hospitals found. Select one hospital.';
+  }catch(e){choices.innerHTML='<div class="hospitalChoice">Hospital directory could not load in this browser.</div>';meta.textContent='Hospital directory unavailable.';}
+}
+async function sync990FromHospitalFocus(){
+  const first=firstCheckedHospitalFocus();
+  if(!first) return;
+  const hospitalRadio=document.querySelector('input[name="form990OrgType"][value="hospital"]');
+  if(hospitalRadio){hospitalRadio.checked=true;set990OrgMode('hospital');}
+  $('form990State').value=first.code;
+  await load990HospitalsForState(first.code,first.facilityId);
+  if(first.name) $('form990Org').value=first.name;
+}
+async function resolve990CandidateFromName(orgName,stateCode=''){
+  let queries=[orgName];
+  const words=String(orgName||'').replace(/[^A-Za-z0-9 ]/g,' ').split(/\s+/).filter(Boolean);
+  if(words.length>=2) queries.push(words.slice(0,2).join(' '));
+  if(words.length>=3) queries.push(words.slice(0,3).join(' '));
+  const context=$('orgContext')?.value.trim();
+  if(context) queries.unshift(context);
+  const seen=new Set();
+  for(const q of queries){
+    if(!q||seen.has(q.toLowerCase())) continue;seen.add(q.toLowerCase());
+    let orgs=await search990Organizations(q,stateCode);
+    if(!orgs.length && stateCode) orgs=await search990Organizations(q,'');
+    if(orgs.length){
+      orgs.sort((a,b)=>score990Candidate(b,q,stateCode)-score990Candidate(a,q,stateCode));
+      return orgs[0];
+    }
+  }
+  return null;
+}
+function cleanEin(value){return String(value||"").replace(/\D/g,"").slice(0,9)}
+function formatEin(value){const e=cleanEin(value);return e.length===9?e.slice(0,2)+" "+e.slice(2):e}
+function ppOrgUrl(ein){return `https://projects.propublica.org/nonprofits/organizations/${ein}`}
+function ppFullUrl(ein,objectId){return `https://projects.propublica.org/nonprofits/organizations/${ein}/${objectId}/full`}
+function ppScheduleUrl(objectId,schedule){return `https://projects.propublica.org/nonprofits/full_text/${objectId}/${schedule}`}
+function irsSearchUrl(){return "https://apps.irs.gov/app/eos/"}
+
+function render990Links({ein,objectId,name,taxYear}){
+  const result=$("form990SourceResult"), grid=$("form990SourceGrid");
+  result.hidden=false;
+  $("form990SourceName").textContent=name||"Form 990 source";
+  $("form990SourceMeta").textContent=`EIN ${formatEin(ein)}${taxYear?`  •  Tax year ${taxYear}`:""}`;
+  $("form990SourceStatus").textContent=objectId?"Latest filing resolved":"Organization page available";
+
+  const orgUrl=ppOrgUrl(ein);
+  const fullUrl=objectId?ppFullUrl(ein,objectId):orgUrl;
+  const coreFormUrl=objectId?ppScheduleUrl(objectId,"IRS990"):fullUrl;
+
+  const sections=[
+    ["part1","Part I  •  Summary","core"],
+    ["part3","Part III  •  Program services","core"],
+    ["part6","Part VI  •  Governance and disclosure","core"],
+    ["part7","Part VII  •  Leadership and compensation","core"],
+    ["part8","Part VIII  •  Revenue","core"],
+    ["part9","Part IX  •  Functional expenses","core"],
+    ["part10","Part X  •  Balance sheet","core"],
+    ["part11","Part XI  •  Net asset reconciliation","core"],
+    ["part12","Part XII  •  Financial reporting","core"],
+    ["schedA","Schedule A  •  Public charity status","IRS990ScheduleA"],
+    ["schedD","Schedule D  •  Supplemental financial statements","IRS990ScheduleD"],
+    ["schedH","Schedule H  •  Hospital community benefit","IRS990ScheduleH"],
+    ["schedI","Schedule I  •  Grants and assistance","IRS990ScheduleI"],
+    ["schedJ","Schedule J  •  Executive compensation","IRS990ScheduleJ"],
+    ["schedK","Schedule K  •  Tax exempt bonds","IRS990ScheduleK"],
+    ["schedL","Schedule L  •  Interested person transactions","IRS990ScheduleL"],
+    ["schedR","Schedule R  •  Related organizations and joint ventures","IRS990ScheduleR"]
+  ];
+
+  grid.innerHTML="";
+
+  const picker=document.createElement("div");
+  picker.className="sourceSectionPicker";
+  picker.style.cssText="padding:18px 18px 20px;border:1px solid var(--line,#d7e4ec);border-radius:18px;background:#fff;margin-bottom:16px;";
+
+  const label=document.createElement("label");
+  label.htmlFor="form990SectionSelect";
+  label.textContent="Form 990 section";
+  label.style.cssText="display:block;font-weight:800;margin-bottom:8px;color:var(--ink,#17324d);";
+
+  const select=document.createElement("select");
+  select.id="form990SectionSelect";
+  select.style.cssText="width:100%;min-height:54px;border:1px solid var(--line,#cbdce7);border-radius:15px;padding:0 14px;font:inherit;background:#fff;color:var(--ink,#17324d);margin-bottom:12px;";
+
+  const coreGroup=document.createElement("optgroup");
+  coreGroup.label="Core Form 990 sections";
+  sections.filter(x=>x[2]==="core").forEach(([value,text])=>{
+    const o=document.createElement("option"); o.value=value; o.textContent=text; coreGroup.appendChild(o);
+  });
+  select.appendChild(coreGroup);
+
+  const schedGroup=document.createElement("optgroup");
+  schedGroup.label="Form 990 schedules";
+  sections.filter(x=>x[2]!=="core").forEach(([value,text])=>{
+    const o=document.createElement("option"); o.value=value; o.textContent=text; schedGroup.appendChild(o);
+  });
+  select.appendChild(schedGroup);
+
+  const openSection=document.createElement("button");
+  openSection.type="button";
+  openSection.className="btn primary";
+  openSection.textContent="Open Selected Section";
+  openSection.style.width="100%";
+  openSection.addEventListener("click",()=>{
+    const item=sections.find(x=>x[0]===select.value);
+    if(!item)return;
+    const target=item[2]==="core" ? coreFormUrl : (objectId?ppScheduleUrl(objectId,item[2]):orgUrl);
+    window.open(target,"_blank","noopener,noreferrer");
+  });
+
+  picker.append(label,select,openSection);
+  grid.appendChild(picker);
+
+  const makeCard=(title,desc,url)=>{
+    const a=document.createElement("a");
+    a.className="sourceLink";
+    a.href=url;a.target="_blank";a.rel="noopener noreferrer";
+    a.innerHTML=`<span><span>${title}</span><small>${desc}</small></span><span class="sourceArrow">›</span>`;
+    return a;
+  };
+
+  grid.appendChild(makeCard("View Compensation","Officer and key employee compensation",orgUrl));
+  grid.appendChild(makeCard("Open Full Form 990","Complete reconstructed IRS filing",fullUrl));
+
+  const secondary=document.createElement("div");
+  secondary.style.cssText="display:flex;gap:14px;flex-wrap:wrap;padding:8px 2px 0;";
+  secondary.innerHTML=`<a href="${orgUrl}" target="_blank" rel="noopener noreferrer" style="font-weight:700">Prior years</a><a href="${irsSearchUrl()}" target="_blank" rel="noopener noreferrer" style="font-weight:700">IRS record</a>`;
+  grid.appendChild(secondary);
+}
+
+async function resolve990Source(){
+  const orgName=$('form990Org').value.trim();
+  const stateCode=$('form990State').value;
+  const status=$('trendStatus');
+  const mode=document.querySelector('input[name="form990OrgType"]:checked')?.value||'system';
+  let ein=cleanEin($('form990ResolvedEin').value);
+  let objectId=$('form990ResolvedEin').dataset.objectId||'';
+  let taxYear=$('form990ResolvedEin').dataset.taxYear||'';
+  if(!orgName){status.textContent='Select a health system or hospital first.';return;}
+  status.textContent='Identifying the legal nonprofit filing entity and latest Form 990.';
+
+  // Reliable local resolution for known systems and hospitals.
+  if(ein.length!==9){
+    const known=mode==='hospital'?known990TargetForHospital(orgName,stateCode):(known990Matches(orgName,stateCode)[0]||null);
+    if(known){
+      ein=known.ein;objectId=known.objectId||'';taxYear=known.taxYear||'';
+      $('form990ResolvedEin').value=ein;
+      $('form990ResolvedEin').dataset.objectId=objectId;
+      $('form990ResolvedEin').dataset.taxYear=taxYear;
+      render990Links({ein,objectId,name:known.name,taxYear});
+      $('form990HospitalMeta').textContent=`Resolved filing entity: ${known.label}. EIN ${formatEin(ein)}.`;
+      status.textContent='Latest filing found. Open any source below.';
+      return;
+    }
+  }
+
+  // If a known EIN was already selected, render immediately without a second API dependency.
+  if(ein.length===9 && (objectId||taxYear)){
+    render990Links({ein,objectId,name:orgName,taxYear});
+    status.textContent='Latest filing found. Open any source below.';
+    return;
+  }
+
+  // Try the public API where the browser permits it. If CORS or browser policy blocks it, never dead-end.
+  try{
+    let resolvedName=orgName;
+    if(ein.length!==9){
+      const candidate=await resolve990CandidateFromName(orgName,stateCode);
+      if(!candidate) throw new Error('No filing entity found');
+      ein=String(candidate.ein||'').padStart(9,'0');
+      resolvedName=properHospitalName(candidate.name||orgName);
+      $('form990ResolvedEin').value=ein;
+      $('form990Org').value=resolvedName;
+    }
+    const r=await fetch(`https://projects.propublica.org/nonprofits/api/v2/organizations/${ein}.json`);
+    if(!r.ok) throw new Error('Lookup unavailable');
+    const data=await r.json();
+    const filings=[...(data.filings_with_data||[]),...(data.filings_without_data||[])].filter(x=>x&&x.object_id);
+    filings.sort((a,b)=>String(b.tax_prd||'').localeCompare(String(a.tax_prd||'')));
+    const latest=filings[0]||{};
+    taxYear=latest.tax_prd?String(latest.tax_prd).slice(0,4):'';
+    const name=data.organization?.name?properHospitalName(data.organization.name):resolvedName;
+    render990Links({ein,objectId:latest.object_id||'',name,taxYear});
+    $('form990HospitalMeta').textContent=`Resolved filing entity: ${name}. EIN ${formatEin(ein)}. Confirm the relationship before assigning system data to an individual hospital.`;
+    status.textContent=latest.object_id?'Latest filing found. Open any source below.':'Organization found. Open filing history to select a return.';
+  }catch(err){
+    render990SearchFallback(orgName,stateCode);
+    $('form990HospitalMeta').textContent='Automatic browser lookup was blocked. Use the source search buttons below. The app will not stop with an error.';
+    status.textContent='Automatic lookup was blocked, so a direct filing search is ready below.';
+  }
+}
+
+function initialize990(){
+  initialize990HospitalSelector();
+  const grid=$("form990Grid");
+  FORM990_SECTIONS.forEach(([id,label])=>{
+    const el=document.createElement("label");
+    el.className="form990Option";
+    el.innerHTML=`<input type="checkbox" class="form990Check" value="${id}"><span></span>`;
+    el.querySelector("span").textContent=label;
+    grid.appendChild(el);
+  });
+  document.querySelectorAll(".form990Tab").forEach(btn=>btn.addEventListener("click",()=>{
+    document.querySelectorAll(".form990Tab").forEach(x=>x.classList.toggle("active",x===btn));
+    document.querySelectorAll(".form990Pane").forEach(p=>p.hidden=p.id!==btn.dataset["990Pane"]);
+  }));
+  $("form990SelectAll").addEventListener("click",()=>document.querySelectorAll(".form990Check").forEach(x=>x.checked=true));
+  $("form990Clear").addEventListener("click",()=>document.querySelectorAll(".form990Check").forEach(x=>x.checked=false));
+  $("close990").addEventListener("click",()=>{$("form990Panel").hidden=true;});
+  $("run990").addEventListener("click",()=>openPrompt(build990Prompt(),$("trendStatus")));
+  $("find990Source").addEventListener("click",resolve990Source);
+}
+function show990Panel(){
+  const panel=$("form990Panel");
+  panel.hidden=false;
+  document.querySelectorAll(".form990Tab").forEach((x,i)=>x.classList.toggle("active",i===0));
+  $("source990Pane").hidden=false;
+  $("analysis990Pane").hidden=true;
+  sync990FromHospitalFocus();
+  if(!$("form990Org").value && $("orgContext")?.value.trim()) $("form990Org").value=$("orgContext").value.trim();
+  if(!document.querySelector(".form990Check:checked")){
+    ["overview","part1","part7","part8","part9","part10","schedH","schedJ","schedR","trends"].forEach(id=>{const x=document.querySelector(`.form990Check[value="${id}"]`);if(x)x.checked=true;});
+  }
+  panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function selected990Sections(){
+  const selected=[...document.querySelectorAll(".form990Check:checked")].map(x=>x.value);
+  const map=Object.fromEntries(FORM990_SECTIONS);
+  return selected.map(id=>map[id]).filter(Boolean);
+}
+
+function build990Prompt(){
+  const tf=$("timeframe")?.value||"Latest available filings";
+  const geoContext=hospitalPromptContext();
+  const ctx=$("orgContext")?.value.trim()||"";
+  const sections=selected990Sections();
+  const sectionText=sections.length?sections.map((x,i)=>`${i+1}. ${x}`).join("\n"):"Analyze the complete Form 990 and all relevant schedules.";
+  return `Act as a healthcare finance intelligence analyst supporting a senior health system finance executive.
+
+ANALYZE: IRS Form 990 tax return information for the selected hospital organizations.
+
+Time horizon: ${tf}.
+${geoContext}
+${ctx?`Organization context: ${ctx}.`:""}
+
+First, identify the correct legal nonprofit entity and EIN associated with each selected hospital or health system. A hospital name may not have its own standalone Form 990. If the hospital is included in a parent organization, controlled entity, disregarded entity, group return, or related organization filing, clearly identify the filing entity and relationship. Do not attribute parent system financial data to an individual hospital unless the filing supports that conclusion.
+
+Use the latest available IRS Form 990 and relevant schedules. Prefer official IRS filings and IRS Tax Exempt Organization Search records. Use other reputable nonprofit filing repositories only when needed to obtain or cross check the actual filed return. Provide the tax year, filing entity name, EIN, filing date when available, and source link for every return analyzed.
+
+FORM 990 SECTIONS REQUESTED:
+${sectionText}
+
+For the requested sections, extract the actual reported figures and explain what they mean financially. Include prior year comparisons when the return provides them and use multiple years when the multi year trend option is selected.
+
+Focus on revenue, operating economics, investment income, liquidity, debt, net assets, compensation, related entities, joint ventures, tax exempt bonds, charity care, community benefit, payer related disclosures, grants, governance, and other items material to a hospital or health system CFO.
+
+When Schedule H is available, separately summarize each hospital facility listed, financial assistance and charity care, unreimbursed Medicaid, community health improvement, health professions education, subsidized services, research, cash and in kind contributions, bad debt disclosures, Medicare shortfall disclosures, community building activities, and total community benefit.
+
+When Schedule J is available, show compensation by named executive and separate base compensation, bonus and incentive compensation, other reportable compensation, retirement and deferred compensation, nontaxable benefits, and compensation from related organizations when reported.
+
+When Schedule R is available, map the related organization structure and identify controlled entities, partnerships, joint ventures, taxable subsidiaries, disregarded entities, and transactions that could matter financially or strategically.
+
+FORMAT AS AN EXECUTIVE FORM 990 BRIEFING.
+
+# Executive Summary
+Summarize the most important financial findings in 150 words or less.
+
+# Filing Identity
+Show organization name, EIN, tax year, filing status, hospital relationship, and source.
+
+# Selected Form 990 Analysis
+Analyze each requested section with reported values and interpretation.
+
+# Financial Trends and Ratios
+Calculate useful growth rates, margins, liquidity indicators, debt measures, compensation trends, community benefit measures, and other ratios when the filings support them. State calculation assumptions.
+
+# CFO Implications
+Explain what the filing suggests about financial strength, cost structure, capital position, executive economics, community benefit, related entities, and strategic position.
+
+# Items Requiring Caution
+Identify data that cannot be reliably assigned to an individual hospital, filing lags, accounting presentation limitations, missing schedules, or other comparability issues.
+
+# Sources
+Provide clickable links to the actual filings and the most authoritative supporting records.
+
+Do not invent missing data. Distinguish reported Form 990 facts from calculations and interpretation.`;
+}
+initialize990();
+
+// Convenience mapping for the current organization context. The filing EIN is resolved automatically.
+
+const topicGrid=$("topicGrid");
+topics.forEach(([name,desc])=>{
+  const b=document.createElement("button");
+  b.className="topic";
+  b.innerHTML=`${name}<small>${desc}</small>`;
+  b.onclick=()=>{
+    if(name==="Form 990 / Tax Returns"){show990Panel();return;}
+    openPrompt(buildCorePrompt(desc),$("trendStatus"));
+  };
+  topicGrid.appendChild(b);
+});
+
+document.querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>{$("homeQuestion").value=c.dataset.example}));
+$("getAnalysis").onclick=()=>{
+  const q=$("homeQuestion").value.trim();
+  if(!q){$("homeStatus").textContent="Enter or dictate a question first.";return}
+  openPrompt(buildCorePrompt(q),$("homeStatus"));
+};
+$("openChat").onclick=$("getAnalysis").onclick;
+
+function saveHistory(type,title,text){
+  const list=JSON.parse(localStorage.getItem("pocketCfoHistory")||"[]");
+  list.unshift({type,title,text,date:new Date().toLocaleString()});
+  localStorage.setItem("pocketCfoHistory",JSON.stringify(list.slice(0,50)));
+  renderHistory();
+}
+$("saveHome").onclick=()=>{
+  const q=$("homeQuestion").value.trim();
+  if(!q){$("homeStatus").textContent="Enter a question first.";return}
+  saveHistory("Question",q,buildCorePrompt(q));
+  $("homeStatus").textContent="Saved to history.";
+};
+
+function n(id){return Number(($(id).value||"").replace(/[^\d.-]/g,""))||0}
+function money(id){
+  const el=$(id),digits=(el.value||"").replace(/[^\d]/g,"");
+  if(!digits){el.value="";return}
+  el.value="$"+Number(digits).toLocaleString("en-US");
+}
+["capital","implementation","revenue","expense","labor","reimbursement"].forEach(id=>{
+  $(id).addEventListener("input",()=>{money(id);updatePreview()});
+});
+["currentVolume","projectedVolume","marketSize","currentShare","targetShare","fte","capacity","timing","life","decisionText","strategic","risks","alternatives"].forEach(id=>$(id).addEventListener("input",updatePreview));
+
+function updatePreview(){
+  const cap=n("capital")+n("implementation"),rev=n("revenue"),exp=n("expense"),margin=rev-exp;
+  $("pvMargin").textContent=(rev||exp)?margin.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}):"Not enough data";
+  $("pvROI").textContent=cap&&(rev||exp)?((margin/cap)*100).toFixed(1)+"%":"Not enough data";
+  $("pvPayback").textContent=cap&&margin>0?(cap/margin).toFixed(1)+" years":"Not enough data";
+  const ids=["decisionText","capital","implementation","revenue","expense","currentVolume","projectedVolume","strategic","risks","alternatives"];
+  $("pvComplete").textContent=Math.round(ids.filter(id=>$(id).value.trim()).length/ids.length*100)+"%";
+}
+function decisionPrompt(){
+  const d=$("decisionText").value.trim();
+  if(!d)return "";
+  const rows=[
+    ["Purchase price or capital",$("capital").value],
+    ["Implementation cost",$("implementation").value],
+    ["Annual revenue",$("revenue").value],
+    ["Annual operating expense",$("expense").value],
+    ["Annual labor expense",$("labor").value],
+    ["Reimbursement per case",$("reimbursement").value],
+    ["Current annual volume",$("currentVolume").value],
+    ["Projected annual volume",$("projectedVolume").value],
+    ["Market size or annual cases",$("marketSize").value],
+    ["Current market share",$("currentShare").value],
+    ["Target market share",$("targetShare").value],
+    ["Incremental FTEs",$("fte").value],
+    ["Capacity or utilization",$("capacity").value],
+    ["Implementation timing",$("timing").value],
+    ["Useful life",$("life").value],
+    ["Strategic rationale",$("strategic").value],
+    ["Known risks or constraints",$("risks").value],
+    ["Alternatives to compare",$("alternatives").value]
+  ].filter(r=>r[1].trim()).map(r=>r[0]+": "+r[1]).join("\n");
+  return `Act as a healthcare finance intelligence analyst supporting a senior health system finance executive.
+
+EXECUTIVE DECISION TO EVALUATE:
+${d}
+
+MANAGEMENT INPUTS:
+${rows||"No quantitative inputs supplied."}
+
+Provide a clear recommendation. Do not invent missing facts. Separate management supplied facts, calculations, assumptions, forecasts, external evidence, and information requiring validation.
+
+Calculate when inputs permit: contribution margin, operating income, ROI, payback, break even revenue and volume, required cases, market share implications, cash requirements, five year cash flow, sensitivity to volume, reimbursement, expense, labor, implementation cost, and timing.
+
+Evaluate financial rationale, strategic rationale, capital and liquidity, operational feasibility, capacity, payer exposure, physician and workforce implications, market demand, competitive position, alternatives including status quo, implementation risk, technology risk, regulatory considerations, key assumptions, missing information, and the 10 most important management questions.
+
+FORMAT:
+# Executive Recommendation
+State Approve, Approve With Conditions, Defer, or Do Not Approve.
+
+# Executive Summary
+Readable in one minute or less.
+
+# Financial Analysis
+
+# Sensitivity and Scenarios
+
+# Strategic and Operational Assessment
+
+# Alternatives
+
+# Risks and Mitigations
+
+# Information Required Before Approval
+
+# Management Questions
+
+# Sources
+Provide clickable links for material external evidence used.`;
+}
+$("runDecision").onclick=()=>{
+  const p=decisionPrompt();
+  if(!p){$("decisionStatus").textContent="Enter a decision first.";return}
+  openPrompt(p,$("decisionStatus"));
+};
+$("saveDecision").onclick=()=>{
+  const p=decisionPrompt();
+  if(!p){$("decisionStatus").textContent="Enter a decision first.";return}
+  saveHistory("Decision",$("decisionText").value.trim(),p);
+  $("decisionStatus").textContent="Decision saved to history.";
+};
+$("clearDecision").onclick=()=>{
+  ["decisionText","capital","implementation","revenue","expense","labor","reimbursement","currentVolume","projectedVolume","marketSize","currentShare","targetShare","fte","capacity","timing","life","strategic","risks","alternatives"].forEach(id=>$(id).value="");
+  
+updatePreview();
+  $("decisionStatus").textContent="Decision cleared.";
+};
+
+const stateAdvocacyResources = {"Alabama": [{"name": "Alabama Hospital Association", "url": "https://www.alaha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Alabama Legislation", "url": "https://legiscan.com/AL/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Alabama healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Alaska": [{"name": "Alaska Hospital & Healthcare Association", "url": "https://www.alaskahha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Alaska Legislation", "url": "https://legiscan.com/AK/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Alaska healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Arizona": [{"name": "Arizona Hospital and Healthcare Association", "url": "https://www.azhha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Arizona Legislation", "url": "https://legiscan.com/AZ/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Arizona healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Arkansas": [{"name": "Arkansas Hospital Association", "url": "https://www.arkhospitals.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Arkansas Legislation", "url": "https://legiscan.com/AR/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Arkansas healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "California": [{"name": "California Hospital Association", "url": "https://www.calhospital.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "California Legislation", "url": "https://legiscan.com/CA/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "California healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Colorado": [{"name": "Colorado Hospital Association", "url": "https://www.cha.com", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Colorado Legislation", "url": "https://legiscan.com/CO/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Colorado healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Connecticut": [{"name": "Connecticut Hospital Association", "url": "https://www.cthosp.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Connecticut Legislation", "url": "https://legiscan.com/CT/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Connecticut healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Delaware": [{"name": "Delaware Healthcare Association", "url": "https://www.deha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Delaware Legislation", "url": "https://legiscan.com/DE/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Delaware healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "District of Columbia": [{"name": "District of Columbia Hospital Association", "url": "https://www.dcha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "District of Columbia Legislation", "url": "https://legiscan.com/DC/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "District of Columbia healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Florida": [{"name": "Florida Hospital Association", "url": "https://www.fha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Florida Legislation", "url": "https://legiscan.com/FL/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Florida healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Georgia": [{"name": "Georgia Hospital Association", "url": "https://www.gha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Georgia Legislation", "url": "https://legiscan.com/GA/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Georgia healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Hawaii": [{"name": "Healthcare Association of Hawaii", "url": "https://www.hah.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Hawaii Legislation", "url": "https://legiscan.com/HI/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Hawaii healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Idaho": [{"name": "Idaho Hospital Association", "url": "https://www.teamiha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Idaho Legislation", "url": "https://legiscan.com/ID/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Idaho healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Illinois": [{"name": "Illinois Health and Hospital Association", "url": "https://www.team-iha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Illinois Legislation", "url": "https://legiscan.com/IL/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Illinois healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Indiana": [{"name": "Indiana Hospital Association", "url": "https://www.ihaconnect.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Indiana Legislation", "url": "https://legiscan.com/IN/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Indiana healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Iowa": [{"name": "Iowa Hospital Association", "url": "https://www.ihaonline.org/", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Iowa Legislation", "url": "https://legiscan.com/IA/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Iowa healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Kansas": [{"name": "Kansas Hospital Association", "url": "https://www.kha-net.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Kansas Legislation", "url": "https://legiscan.com/KS/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Kansas healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Kentucky": [{"name": "Kentucky Hospital Association", "url": "https://www.kyha.com", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Kentucky Legislation", "url": "https://legiscan.com/KY/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Kentucky healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Louisiana": [{"name": "Louisiana Hospital Association", "url": "https://www.lhaonline.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Louisiana Legislation", "url": "https://legiscan.com/LA/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Louisiana healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Maine": [{"name": "Maine Hospital Association", "url": "https://www.themha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Maine Legislation", "url": "https://legiscan.com/ME/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Maine healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Maryland": [{"name": "Maryland Hospital Association", "url": "https://mhaonline.org/", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Maryland Legislation", "url": "https://legiscan.com/MD/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Maryland healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Massachusetts": [{"name": "Massachusetts Health & Hospital Association", "url": "https://www.mhalink.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Massachusetts Legislation", "url": "https://legiscan.com/MA/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Massachusetts healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Michigan": [{"name": "Michigan Health & Hospital Association", "url": "https://www.mha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Michigan Association of Health Plans", "url": "https://www.mahp.org/", "desc": "Commercial payer advocacy, coverage policy, affordability and insurance market developments"}, {"name": "Michigan Department of Health and Human Services", "url": "https://www.michigan.gov/mdhhs", "desc": "Medicaid, public health, behavioral health, state policy and newsroom updates"}, {"name": "Michigan Legislature", "url": "https://www.legislature.mi.gov/", "desc": "Bills, committee activity, public acts and legislative calendars"}, {"name": "Michigan Department of Insurance and Financial Services", "url": "https://www.michigan.gov/difs", "desc": "Health insurance regulation, bulletins, market conduct and consumer policy"}, {"name": "Michigan Primary Care Association", "url": "https://www.mpca.net/", "desc": "Community health center policy, Medicaid, workforce and access advocacy"}, {"name": "Michigan Legislation", "url": "https://legiscan.com/MI/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Michigan healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Minnesota": [{"name": "Minnesota Hospital Association", "url": "https://www.mnhospitals.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Minnesota Legislation", "url": "https://legiscan.com/MN/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Minnesota healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Mississippi": [{"name": "Mississippi Hospital Association", "url": "https://www.mhanet.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Mississippi Legislation", "url": "https://legiscan.com/MS/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Mississippi healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Missouri": [{"name": "Missouri Hospital Association", "url": "https://web.mhanet.com", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Missouri Legislation", "url": "https://legiscan.com/MO/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Missouri healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Montana": [{"name": "Montana Hospital Association", "url": "https://mtha.org/", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Montana Legislation", "url": "https://legiscan.com/MT/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Montana healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Nebraska": [{"name": "Nebraska Hospital Association", "url": "https://www.nebraskahospitals.org/", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Nebraska Legislation", "url": "https://legiscan.com/NE/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Nebraska healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Nevada": [{"name": "Nevada Hospital Association", "url": "https://www.nvha.net", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Nevada Legislation", "url": "https://legiscan.com/NV/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Nevada healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "New Hampshire": [{"name": "New Hampshire Hospital Association", "url": "https://www.nhha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "New Hampshire Legislation", "url": "https://legiscan.com/NH/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "New Hampshire healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "New Jersey": [{"name": "New Jersey Hospital Association", "url": "https://www.njha.com", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "New Jersey Legislation", "url": "https://legiscan.com/NJ/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "New Jersey healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "New Mexico": [{"name": "New Mexico Hospital Association", "url": "https://www.nmhanet.org/", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "New Mexico Legislation", "url": "https://legiscan.com/NM/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "New Mexico healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "New York": [{"name": "Healthcare Association of New York State", "url": "https://www.hanys.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "New York Legislation", "url": "https://legiscan.com/NY/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "New York healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "North Carolina": [{"name": "North Carolina Healthcare Association", "url": "https://www.ncha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "North Carolina Legislation", "url": "https://legiscan.com/NC/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "North Carolina healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "North Dakota": [{"name": "North Dakota Hospital Association", "url": "https://www.ndha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "North Dakota Legislation", "url": "https://legiscan.com/ND/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "North Dakota healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Ohio": [{"name": "Ohio Hospital Association", "url": "https://ohiohospitals.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Ohio Legislation", "url": "https://legiscan.com/OH/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Ohio healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Oklahoma": [{"name": "Oklahoma Hospital Association", "url": "https://www.okoha.com", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Oklahoma Legislation", "url": "https://legiscan.com/OK/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Oklahoma healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Oregon": [{"name": "Oregon Association of Hospitals and Health Systems", "url": "https://www.oahhs.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Oregon Legislation", "url": "https://legiscan.com/OR/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Oregon healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Pennsylvania": [{"name": "Hospital and Healthsystem Association of Pennsylvania", "url": "https://www.haponline.org/", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Pennsylvania Legislation", "url": "https://legiscan.com/PA/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Pennsylvania healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Rhode Island": [{"name": "Hospital Association of Rhode Island", "url": "https://www.hari.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Rhode Island Legislation", "url": "https://legiscan.com/RI/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Rhode Island healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "South Carolina": [{"name": "South Carolina Hospital Association", "url": "https://www.scha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "South Carolina Legislation", "url": "https://legiscan.com/SC/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "South Carolina healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "South Dakota": [{"name": "South Dakota Association of Healthcare Organizations", "url": "https://www.sdaho.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "South Dakota Legislation", "url": "https://legiscan.com/SD/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "South Dakota healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Tennessee": [{"name": "Tennessee Hospital Association", "url": "https://www.tha.com", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Tennessee Legislation", "url": "https://legiscan.com/TN/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Tennessee healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Texas": [{"name": "Texas Hospital Association", "url": "https://www.tha.org/", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Texas Legislation", "url": "https://legiscan.com/TX/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Texas healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Utah": [{"name": "Utah Hospital Association", "url": "https://www.utahhospitals.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Utah Legislation", "url": "https://legiscan.com/UT/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Utah healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Vermont": [{"name": "Vermont Association of Hospitals and Health Systems", "url": "https://www.vahhs.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Vermont Legislation", "url": "https://legiscan.com/VT/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Vermont healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Virginia": [{"name": "Virginia Hospital & Healthcare Association", "url": "https://www.vhha.com", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Virginia Legislation", "url": "https://legiscan.com/VA/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Virginia healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Washington": [{"name": "Washington State Hospital Association", "url": "https://www.wsha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Washington Legislation", "url": "https://legiscan.com/WA/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Washington healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "West Virginia": [{"name": "West Virginia Hospital Association", "url": "https://www.wvha.org/", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "West Virginia Legislation", "url": "https://legiscan.com/WV/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "West Virginia healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Wisconsin": [{"name": "Wisconsin Hospital Association", "url": "https://www.wha.org", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Wisconsin Legislation", "url": "https://legiscan.com/WI/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Wisconsin healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}], "Wyoming": [{"name": "Wyoming Hospital Association", "url": "https://www.wyohospitals.com", "desc": "Hospital and health system advocacy, payment policy, legislation and industry updates"}, {"name": "Wyoming Legislation", "url": "https://legiscan.com/WY/legislation", "desc": "Current bills, legislative actions, committees and state policy tracking"}, {"name": "KFF State Health Facts", "url": "https://www.kff.org/state-health-facts/", "desc": "Wyoming healthcare coverage, Medicaid, payer, utilization, workforce and cost data"}, {"name": "AHA State Association Directory", "url": "https://www.aha.org/directory/2020-06-09-state-hospital-associations", "desc": "American Hospital Association directory and state hospital advocacy network"}]};
+
+function renderStateResources(){
+  const sel=document.getElementById("newsStateSelect");
+  const grid=document.getElementById("stateResourceGrid");
+  if(!sel||!grid)return;
+  const state=sel.value;
+  const resources=stateAdvocacyResources[state]||[];
+  grid.innerHTML="";
+  if(!resources.length){
+    grid.innerHTML='<div class="stateResourceEmpty">Select a state to display healthcare advocacy, regulatory, legislative, payer, and market resources.</div>';
+    return;
+  }
+  resources.forEach(r=>{
+    const card=document.createElement("a");
+    card.className="sourceCard";
+    card.href=r.url;
+    card.target="_blank";
+    card.rel="noopener";
+    let domain="";
+    try{domain=new URL(r.url).hostname.replace(/^www\./,"");}catch(e){}
+    const icon=domain ? 'https://www.google.com/s2/favicons?domain='+encodeURIComponent(domain)+'&sz=128' : '';
+    card.innerHTML='<span class="sourceIcon logoIcon"><img src="'+icon+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'"></span><span><strong>'+r.name+'</strong><small>'+r.desc+'</small></span>';
+    grid.appendChild(card);
+  });
+}
+
+(function(){
+  const sel=document.getElementById("newsStateSelect");
+  if(!sel)return;
+  sel.addEventListener("change",renderStateResources);
+  renderStateResources();
+})();
+
+
+function sbarPrompt(){
+  const d=$("sbarDecision").value.trim(),f=$("sbarFinancial").value.trim(),c=$("sbarContext").value.trim();
+  if(!d)return "";
+  return `Act as a healthcare finance intelligence analyst supporting a senior health system finance executive.
+
+Create a concise executive SBAR for the following decision or issue.
+
+DECISION OR ISSUE:
+${d}
+
+FINANCIAL INPUTS:
+${f||"Not supplied."}
+
+OPERATIONAL AND STRATEGIC CONTEXT:
+${c||"Not supplied."}
+
+Do not invent missing facts. Clearly distinguish management supplied facts, calculated values, assumptions, forecasts, and information requiring validation.
+
+Use exactly these sections:
+
+SITUATION
+State the decision required, why it matters now, and the recommended direction in a few sentences.
+
+BACKGROUND
+Summarize the relevant financial, operational, strategic, market, regulatory, and organizational context. Include the most important quantitative assumptions and known facts.
+
+ASSESSMENT
+Summarize economics, return, margin and cash impact, sensitivities, alternatives, risks, and strongest arguments for and against.
+
+RECOMMENDATION
+Give the recommendation, approval conditions, required actions, metrics, and unresolved items.`;
+}
+$("runSBAR").onclick=()=>{
+  const p=sbarPrompt();
+  if(!p){$("sbarStatus").textContent="Enter a decision or issue first.";return}
+  openPrompt(p,$("sbarStatus"));
+};
+$("saveSBAR").onclick=()=>{
+  const p=sbarPrompt();
+  if(!p){$("sbarStatus").textContent="Enter a decision or issue first.";return}
+  saveHistory("SBAR",$("sbarDecision").value.trim(),p);
+  $("sbarStatus").textContent="SBAR saved to history.";
+};
+
+function renderHistory(){
+  const items=JSON.parse(localStorage.getItem("pocketCfoHistory")||"[]");
+  const box=$("savedList");
+  box.innerHTML="";
+  if(!items.length){box.innerHTML='<div class="savedItem"><strong>No saved items yet</strong><small>Questions, decisions, and SBARs you save will appear here.</small></div>';return}
+  items.forEach((it,i)=>{
+    const d=document.createElement("div");
+    d.className="savedItem";
+    d.innerHTML=`<strong>${it.type}: ${it.title}</strong><small>${it.date}</small><div class="actionRow"><button class="btn" data-open="${i}">Open in ChatGPT</button><button class="btn" data-delete="${i}">Delete</button></div>`;
+    box.appendChild(d);
+  });
+  box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openPrompt(items[Number(b.dataset.open)].text));
+  box.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>{
+    const arr=JSON.parse(localStorage.getItem("pocketCfoHistory")||"[]");
+    arr.splice(Number(b.dataset.delete),1);
+    localStorage.setItem("pocketCfoHistory",JSON.stringify(arr));
+    renderHistory();
+  });
+}
+$("clearHistory").onclick=()=>{localStorage.removeItem("pocketCfoHistory");renderHistory()};
+renderHistory();
+
+(function(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  let active=null,activeBtn=null;
+  document.querySelectorAll("[data-mic-target]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      if(active){try{active.stop()}catch(e){};return}
+      if(!SR){alert("Speech recognition is not supported in this browser. On Android, use Chrome and allow microphone access.");return}
+      const target=$(btn.dataset.micTarget);
+      const r=new SR();
+      active=r;activeBtn=btn;
+      r.lang="en-US";r.interimResults=false;r.continuous=true;
+      btn.classList.add("listening");btn.textContent="■";
+      r.onresult=e=>{
+        let s="";
+        for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)s+=e.results[i][0].transcript+" ";
+        s=s.trim();
+        if(s){target.value=(target.value.trim()?target.value.trim()+" ":"")+s;target.dispatchEvent(new Event("input",{bubbles:true}));}
+      };
+      r.onend=()=>{btn.classList.remove("listening");btn.textContent="🎤";active=null;activeBtn=null};
+      r.onerror=()=>{try{r.stop()}catch(e){}};
+      r.start();
+    });
+  });
+})();
+
+updatePreview();
+</script>
+</body>
+</html>
